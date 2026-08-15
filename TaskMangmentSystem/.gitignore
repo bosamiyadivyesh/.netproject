@@ -1,0 +1,86 @@
+# Visual Studio
+.vs/
+*.user
+*.userosscache
+*.suo
+*.userprefs
+*.sln.docstates
+
+# Build folders
+[Bb]in/
+[Oo]bj/
+
+# Visual Studio Code
+.vscode/
+
+# Rider
+.idea/
+*.sln.iml
+
+# ASP.NET Core
+wwwroot/lib/
+
+# User-specific files
+*.rsuser
+
+# Logs
+*.log
+
+# NuGet
+packages/
+*.nupkg
+*.snupkg
+
+# NuGet local cache
+.nuget/
+
+# Entity Framework
+*.db
+*.db-shm
+*.db-wal
+
+# Environment / Secrets
+.env
+.env.*
+!.env.example
+
+# ASP.NET secrets
+secrets.json
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Temporary files
+*.tmp
+*.temp
+
+# Test results
+TestResults/
+*.trx
+
+# Coverage
+coverage/
+*.coverage
+*.coveragexml
+
+# Publish output
+publish/
+*.publishsettings
+
+# Azure
+*.publishsettings
+.azure/
+
+# Node (if you use frontend later)
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+pnpm-debug.log*
+
+# Backup files
+*.bak
+*.swp
+*.orig
+
+*.appsettings.Development.json
