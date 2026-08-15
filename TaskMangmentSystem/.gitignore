@@ -83,4 +83,5 @@ pnpm-debug.log*
 *.swp
 *.orig
 
+appsettings/
 *.appsettings.Development.json
