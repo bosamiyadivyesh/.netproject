@@ -1,0 +1,68 @@
+﻿@model List<TaskManagement.Models.AdminUserListRow>
+
+@{
+    ViewData["Title"] = "Users";
+    Layout = "_AdminLayout";
+}
+
+<h1>Users</h1>
+
+@if (TempData["Success"] != null)
+{
+    <p style="color:green">@TempData["Success"]</p>
+}
+@if (TempData["Error"] != null)
+{
+    <p style="color:red">@TempData["Error"]</p>
+}
+
+<p>
+    <a asp-controller="AdminUsers" asp-action="Create">+ Add New User</a>
+</p>
+
+<form method="get" asp-controller="AdminUsers" asp-action="Index">
+    <input type="text" name="search" value="@ViewBag.Search" placeholder="Search name or email" />
+    <select name="role">
+        <option value="">All Roles</option>
+        <option value="admin" selected="@(ViewBag.Role == "admin")">Admin</option>
+        <option value="user" selected="@(ViewBag.Role == "user")">User</option>
+    </select>
+    <button type="submit">Filter</button>
+    <a asp-controller="AdminUsers" asp-action="Index">Reset</a>
+</form>
+
+<table border="1" cellpadding="4">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Role</th>
+            <th>Assigned Tasks</th>
+            <th>Created At</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var u in Model)
+        {
+            <tr>
+                <td>@u.Id</td>
+                <td>@u.Name</td>
+                <td>@u.Email</td>
+                <td>@u.Role</td>
+                <td>@u.TotalAssignedTasks</td>
+                <td>@u.CreatedAt.ToString("yyyy-MM-dd HH:mm")</td>
+                <td>
+                    <a asp-controller="AdminUsers" asp-action="Edit" asp-route-id="@u.Id">Edit</a>
+                    |
+                    <a asp-controller="AdminUsers" asp-action="Delete" asp-route-id="@u.Id">Delete</a>
+                </td>
+            </tr>
+        }
+        @if (!Model.Any())
+        {
+            <tr><td colspan="7">No users found.</td></tr>
+        }
+    </tbody>
+</table>

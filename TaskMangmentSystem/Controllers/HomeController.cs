@@ -1,9 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using TaskMangmentSystem.Models;
-
-namespace TaskMangmentSystem.Controllers
-{
     public class HomeController : Controller
     {
         public IActionResult Index()
@@ -22,4 +19,3 @@ namespace TaskMangmentSystem.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
     }
-}

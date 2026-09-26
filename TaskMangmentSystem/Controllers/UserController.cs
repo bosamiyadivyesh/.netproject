@@ -4,12 +4,8 @@ using TaskManagement.Models;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Mvc;
-using TaskManagement.Data;
-using TaskManagement.Models;
 
-namespace TaskManagement.Controllers
-{
+
     public class UserController : Controller
     {
         private readonly AppDbContext _context;
@@ -54,7 +50,7 @@ namespace TaskManagement.Controllers
                 user.Password
             );
 
-            user.Role = "user";
+            user.Role = "admin";
             user.CreatedAt = DateTime.UtcNow;
 
             _context.Users.Add(user);
@@ -121,4 +117,3 @@ namespace TaskManagement.Controllers
             return RedirectToAction("Index", "Home");
         }
     }
-}

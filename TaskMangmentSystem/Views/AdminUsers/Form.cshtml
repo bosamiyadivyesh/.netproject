@@ -1,0 +1,51 @@
+﻿@model TaskManagement.Models.AdminUserFormViewModel
+
+@{
+    ViewData["Title"] = Model.IsEdit ? "Edit User" : "Add User";
+    Layout = "_AdminLayout";
+}
+
+<h1>@(Model.IsEdit ? "Edit User" : "Add New User")</h1>
+
+<form asp-controller="AdminUsers" asp-action="@(Model.IsEdit ? "Edit" : "Create")" method="post">
+    @if (Model.IsEdit)
+    {
+        <input type="hidden" asp-for="Id" />
+    }
+
+    <div asp-validation-summary="All"></div>
+
+    <div>
+        <label asp-for="Name"></label>
+        <input asp-for="Name" />
+        <span asp-validation-for="Name"></span>
+    </div>
+
+    <div>
+        <label asp-for="Email"></label>
+        <input asp-for="Email" />
+        <span asp-validation-for="Email"></span>
+    </div>
+
+    <div>
+        <label asp-for="Password"></label>
+        <input asp-for="Password" type="password" />
+        @if (Model.IsEdit)
+        {
+            <small>Leave blank to keep the current password.</small>
+        }
+        <span asp-validation-for="Password"></span>
+    </div>
+
+    <div>
+        <label asp-for="Role"></label>
+        <select asp-for="Role">
+            <option value="user">User</option>
+            <option value="admin">Admin</option>
+        </select>
+        <span asp-validation-for="Role"></span>
+    </div>
+
+    <button type="submit">@(Model.IsEdit ? "Save Changes" : "Create User")</button>
+    <a asp-controller="AdminUsers" asp-action="Index">Cancel</a>
+</form>

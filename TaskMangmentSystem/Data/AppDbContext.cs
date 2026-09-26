@@ -30,6 +30,15 @@ namespace TaskManagement.Data
 
         public DbSet<Notification> Notifications { get; set; }
 
+      
+
+
+
+
+
+
+
+
         [Obsolete]
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

@@ -1,0 +1,144 @@
+﻿@model TaskManagement.Models.AdminDashboard
+
+
+
+<h1>Admin Dashboard</h1>
+
+<h3>Users</h3>
+<ul>
+    <li>Total Users: @Model.TotalUsers</li>
+    <li>Admins: @Model.TotalAdmins</li>
+    <li>Normal Users: @Model.TotalNormalUsers</li>
+</ul>
+
+<h3>Projects</h3>
+<ul>
+    <li>Total Projects: @Model.TotalProjects</li>
+</ul>
+
+<h3>Tasks</h3>
+<ul>
+    <li>Total Tasks: @Model.TotalTasks</li>
+    <li>Pending: @Model.PendingTasks</li>
+    <li>In Progress: @Model.InProgressTasks</li>
+    <li>Completed: @Model.CompletedTasks</li>
+    <li>Cancelled: @Model.CancelledTasks</li>
+    <li>Overdue: @Model.OverdueTasks</li>
+    <li>Urgent (open): @Model.UrgentTasks</li>
+    <li>Recurring: @Model.RecurringTasks</li>
+    <li>Deleted (Recycle Bin): @Model.DeletedTasks</li>
+</ul>
+
+<h3>Other</h3>
+<ul>
+    <li>Task Assignments: @Model.TotalAssignments</li>
+    <li>Task Completions: @Model.TotalCompletions</li>
+    <li>Task Comments: @Model.TotalComments</li>
+    <li>Unread Notifications: @Model.UnreadNotifications</li>
+</ul>
+
+<h3>Recent Tasks</h3>
+<table border="1" cellpadding="4">
+    <thead>
+        <tr>
+            <th>Task Id</th>
+            <th>Title</th>
+            <th>Project</th>
+            <th>Status</th>
+            <th>Priority</th>
+            <th>Deadline</th>
+            <th>Assigned To</th>
+            <th>Created At</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var t in Model.RecentTasks)
+        {
+            <tr>
+                <td>@t.TaskId</td>
+                <td>@t.Title</td>
+                <td>@(t.ProjectName ?? "-")</td>
+                <td>@t.Status</td>
+                <td>@t.Priority</td>
+                <td>@(t.Deadline?.ToString("yyyy-MM-dd HH:mm") ?? "-")</td>
+                <td>@(t.AssignedToName ?? "-")</td>
+                <td>@t.CreatedAt.ToString("yyyy-MM-dd HH:mm")</td>
+            </tr>
+        }
+        @if (!Model.RecentTasks.Any())
+        {
+            <tr><td colspan="8">No tasks yet.</td></tr>
+        }
+    </tbody>
+</table>
+
+<h3>Recent Activity (Task History)</h3>
+<table border="1" cellpadding="4">
+    <thead>
+        <tr>
+            <th>History Id</th>
+            <th>Task</th>
+            <th>Action</th>
+            <th>Old Value</th>
+            <th>New Value</th>
+            <th>Changed By</th>
+            <th>Changed At</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var h in Model.RecentActivity)
+        {
+            <tr>
+                <td>@h.HistoryId</td>
+                <td>#@h.TaskId - @h.TaskTitle</td>
+                <td>@h.Action</td>
+                <td>@(h.OldValue ?? "-")</td>
+                <td>@(h.NewValue ?? "-")</td>
+                <td>@(h.ChangedByName ?? "-")</td>
+                <td>@h.ChangedAt.ToString("yyyy-MM-dd HH:mm")</td>
+            </tr>
+        }
+        @if (!Model.RecentActivity.Any())
+        {
+            <tr><td colspan="7">No activity yet.</td></tr>
+        }
+    </tbody>
+</table>
+
+<h3>Recent Completions</h3>
+<table border="1" cellpadding="4">
+    <thead>
+        <tr>
+            <th>Completion Id</th>
+            <th>Task</th>
+            <th>Completed By</th>
+            <th>Completed At</th>
+            <th>PDF</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var c in Model.RecentCompletions)
+        {
+            <tr>
+                <td>@c.CompletionId</td>
+                <td>#@c.TaskId - @c.TaskTitle</td>
+                <td>@(c.CompletedByName ?? "-")</td>
+                <td>@c.CompletedAt.ToString("yyyy-MM-dd HH:mm")</td>
+                <td>
+                    @if (!string.IsNullOrEmpty(c.PdfUrl))
+                    {
+                        <a href="@c.PdfUrl" target="_blank">View PDF</a>
+                    }
+                    else
+                    {
+                        <span>-</span>
+                    }
+                </td>
+            </tr>
+        }
+        @if (!Model.RecentCompletions.Any())
+        {
+            <tr><td colspan="5">No completions yet.</td></tr>
+        }
+    </tbody>
+</table>

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Admin - TaskMangmentSystem</title>
+</head>
+<body>
+    <header>
+        <h2>Admin Panel</h2>
+        <nav>
+            <a asp-controller="AdminDashboard" asp-action="Index">Dashboard</a>
+            @* Links for the other admin pages will <be></be> added here as we build them *@
+        </nav>
+        <hr />
+    </header>
+
+    <main>
+        @RenderBody()
+    </main>
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
