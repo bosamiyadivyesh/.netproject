@@ -1,0 +1,109 @@
+﻿@model TaskManagement.Models.AdminTaskDetailsViewModel
+
+@{
+    ViewData["Title"] = "Task Details";
+    Layout = "_AdminLayout";
+}
+
+<h1>@Model.Title</h1>
+<p>@(Model.Description ?? "No description")</p>
+
+<ul>
+    <li>Project: @(Model.ProjectName ?? "-")</li>
+    <li>Status: @Model.Status</li>
+    <li>Priority: @Model.Priority</li>
+    <li>Deadline: @(Model.Deadline?.ToString("yyyy-MM-dd HH:mm") ?? "-")</li>
+    <li>Recurring: @(Model.IsRecurring ? "Yes" : "No")</li>
+    <li>Created By: @(Model.CreatedByName ?? "-")</li>
+    <li>Assigned To (primary): @(Model.AssignedToName ?? "-")</li>
+    <li>Created At: @Model.CreatedAt.ToString("yyyy-MM-dd HH:mm")</li>
+    <li>Updated At: @(Model.UpdatedAt?.ToString("yyyy-MM-dd HH:mm") ?? "-")</li>
+</ul>
+
+<p>
+    <a asp-controller="AdminTasks" asp-action="Edit" asp-route-id="@Model.TaskId">Edit Task</a>
+    |
+    <a asp-controller="AdminTaskAssignments" asp-action="Index" asp-route-taskId="@Model.TaskId">Manage Assignments</a>
+    |
+    <a asp-controller="AdminTasks" asp-action="Index">Back to Tasks</a>
+</p>
+
+<h3>Assigned Users (TaskAssignments)</h3>
+<table border="1" cellpadding="4">
+    <thead><tr><th>User</th><th>Assigned At</th></tr></thead>
+    <tbody>
+        @foreach (var a in Model.Assignments)
+        {
+            <tr><td>@a.UserName</td><td>@a.AssignedAt.ToString("yyyy-MM-dd HH:mm")</td></tr>
+        }
+        @if (!Model.Assignments.Any())
+        {
+            <tr><td colspan="2">No users assigned yet.</td></tr>
+        }
+    </tbody>
+</table>
+
+<h3>Completion (TaskCompletions)</h3>
+@if (Model.Completion != null)
+{
+    <ul>
+        <li>Completed By: @(Model.Completion.CompletedByName ?? "-")</li>
+        <li>Completed At: @Model.Completion.CompletedAt.ToString("yyyy-MM-dd HH:mm")</li>
+        <li>Notes: @(Model.Completion.Notes ?? "-")</li>
+        <li>
+            PDF:
+            @if (!string.IsNullOrEmpty(Model.Completion.PdfUrl))
+            {
+                <a href="@Model.Completion.PdfUrl" target="_blank">View PDF</a>
+            }
+            else
+            {
+                <span>-</span>
+            }
+        </li>
+    </ul>
+}
+else
+{
+    <p>This task has not been completed yet.</p>
+}
+
+<h3>Comments (TaskComments)</h3>
+<table border="1" cellpadding="4">
+    <thead><tr><th>User</th><th>Comment</th><th>Created At</th></tr></thead>
+    <tbody>
+        @foreach (var c in Model.Comments)
+        {
+            <tr>
+                <td>@(c.UserName ?? "-")</td>
+                <td>@c.Comment</td>
+                <td>@c.CreatedAt.ToString("yyyy-MM-dd HH:mm")</td>
+            </tr>
+        }
+        @if (!Model.Comments.Any())
+        {
+            <tr><td colspan="3">No comments yet.</td></tr>
+        }
+    </tbody>
+</table>
+
+<h3>History (TaskHistories)</h3>
+<table border="1" cellpadding="4">
+    <thead><tr><th>Action</th><th>Old Value</th><th>New Value</th><th>Changed By</th><th>Changed At</th></tr></thead>
+    <tbody>
+        @foreach (var h in Model.History)
+        {
+            <tr>
+                <td>@h.Action</td>
+                <td>@(h.OldValue ?? "-")</td>
+                <td>@(h.NewValue ?? "-")</td>
+                <td>@(h.ChangedByName ?? "-")</td>
+                <td>@h.ChangedAt.ToString("yyyy-MM-dd HH:mm")</td>
+            </tr>
+        }
+        @if (!Model.History.Any())
+        {
+            <tr><td colspan="5">No history yet.</td></tr>
+        }
+    </tbody>
+</table>

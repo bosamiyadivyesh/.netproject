@@ -1,0 +1,44 @@
+﻿@model TaskManagement.Models.AdminNotificationFormViewModel
+
+@{
+    ViewData["Title"] = "Send Notification";
+    Layout = "_AdminLayout";
+}
+
+<h1>Send New Notification</h1>
+
+<form asp-controller="AdminNotifications" asp-action="Create" method="post">
+    <div asp-validation-summary="All"></div>
+
+    <div>
+        <label asp-for="UserId">Send To</label>
+        <select asp-for="UserId">
+            <option value="">-- Select User --</option>
+            @foreach (var u in Model.UserOptions)
+            {
+                <option value="@u.Id">@u.Name</option>
+            }
+        </select>
+        <span asp-validation-for="UserId"></span>
+    </div>
+
+    <div>
+        <label asp-for="TaskId">Related Task (optional)</label>
+        <select asp-for="TaskId">
+            <option value="">-- None --</option>
+            @foreach (var t in Model.TaskOptions)
+            {
+                <option value="@t.TaskId">#@t.TaskId - @t.Title</option>
+            }
+        </select>
+    </div>
+
+    <div>
+        <label asp-for="Message"></label>
+        <textarea asp-for="Message" rows="3"></textarea>
+        <span asp-validation-for="Message"></span>
+    </div>
+
+    <button type="submit">Send Notification</button>
+    <a asp-controller="AdminNotifications" asp-action="Index">Cancel</a>
+</form>

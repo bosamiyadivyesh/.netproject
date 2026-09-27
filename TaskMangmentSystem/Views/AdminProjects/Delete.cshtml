@@ -1,0 +1,26 @@
+﻿@model TaskManagement.Models.Project
+
+@{
+    ViewData["Title"] = "Delete Project";
+    Layout = "_AdminLayout";
+}
+
+<h1>Delete Project</h1>
+
+<p>Are you sure you want to delete this project?</p>
+
+<ul>
+    <li>Name: @Model.Name</li>
+    <li>Description: @(Model.Description ?? "-")</li>
+</ul>
+
+<p style="color:orange">
+    Note: this project has @ViewBag.TaskCount task(s). Deleting the project will NOT delete those tasks,
+    they will just show no project (ProjectId becomes empty).
+</p>
+
+<form asp-controller="AdminProjects" asp-action="Delete" method="post">
+    <input type="hidden" name="id" value="@Model.ProjectId" />
+    <button type="submit">Yes, Delete</button>
+    <a asp-controller="AdminProjects" asp-action="Index">Cancel</a>
+</form>

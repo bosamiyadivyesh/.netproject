@@ -1,0 +1,27 @@
+﻿@model TaskManagement.Models.AdminCompletionListRow
+
+@{
+    ViewData["Title"] = "Delete Completion Record";
+    Layout = "_AdminLayout";
+}
+
+<h1>Delete Completion Record</h1>
+
+<p>Are you sure you want to delete this completion record?</p>
+
+<ul>
+    <li>Task: #@Model.TaskId - @Model.TaskTitle</li>
+    <li>Completed By: @(Model.CompletedByName ?? "-")</li>
+    <li>Completed At: @Model.CompletedAt.ToString("yyyy-MM-dd HH:mm")</li>
+</ul>
+
+<p style="color:orange">
+    Note: this only deletes the completion record (proof/notes). It does NOT change the Task's Status field.
+    If needed, update the task status separately from the Tasks page.
+</p>
+
+<form asp-controller="AdminTaskCompletions" asp-action="Delete" method="post">
+    <input type="hidden" name="id" value="@Model.CompletionId" />
+    <button type="submit">Yes, Delete</button>
+    <a asp-controller="AdminTaskCompletions" asp-action="Index">Cancel</a>
+</form>

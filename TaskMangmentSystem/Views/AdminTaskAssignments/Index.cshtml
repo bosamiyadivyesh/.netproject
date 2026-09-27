@@ -1,0 +1,81 @@
+﻿@model List<TaskManagement.Models.AdminAssignmentListRow>
+@using TaskManagement.Models
+
+@{
+    ViewData["Title"] = "Task Assignments";
+    Layout = "_AdminLayout";
+    var taskOptions = ViewBag.TaskOptions as List<TaskOption>;
+    var userOptions = ViewBag.UserOptions as List<UserOption>;
+}
+
+<h1>Task Assignments</h1>
+
+@if (TempData["Success"] != null)
+{
+    <p style="color:green">@TempData["Success"]</p>
+}
+
+<p>
+    <a asp-controller="AdminTaskAssignments" asp-action="Create" asp-route-taskId="@ViewBag.TaskId">+ Assign User to Task</a>
+</p>
+
+<form method="get" asp-controller="AdminTaskAssignments" asp-action="Index">
+    <select name="taskId">
+        <option value="">All Tasks</option>
+        @if (taskOptions != null)
+        {
+            foreach (var t in taskOptions)
+            {
+                <option value="@t.TaskId" selected="@(ViewBag.TaskId == t.TaskId)">#@t.TaskId - @t.Title</option>
+            }
+        }
+    </select>
+
+    <select name="userId">
+        <option value="">All Users</option>
+        @if (userOptions != null)
+        {
+            foreach (var u in userOptions)
+            {
+                <option value="@u.Id" selected="@(ViewBag.UserId == u.Id)">@u.Name</option>
+            }
+        }
+    </select>
+
+    <button type="submit">Filter</button>
+    <a asp-controller="AdminTaskAssignments" asp-action="Index">Reset</a>
+</form>
+
+<table border="1" cellpadding="4">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Task</th>
+            <th>Task Status</th>
+            <th>User</th>
+            <th>Assigned At</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var a in Model)
+        {
+            <tr>
+                <td>@a.Id</td>
+                <td>
+                    <a asp-controller="AdminTasks" asp-action="Details" asp-route-id="@a.TaskId">#@a.TaskId - @a.TaskTitle</a>
+                </td>
+                <td>@a.TaskStatus</td>
+                <td>@a.UserName</td>
+                <td>@a.AssignedAt.ToString("yyyy-MM-dd HH:mm")</td>
+                <td>
+                    <a asp-controller="AdminTaskAssignments" asp-action="Delete" asp-route-id="@a.Id">Unassign</a>
+                </td>
+            </tr>
+        }
+        @if (!Model.Any())
+        {
+            <tr><td colspan="6">No assignments found.</td></tr>
+        }
+    </tbody>
+</table>

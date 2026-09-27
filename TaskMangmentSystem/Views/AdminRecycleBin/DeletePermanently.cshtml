@@ -1,0 +1,32 @@
+﻿@model TaskManagement.Models.TaskItem
+
+@{
+    ViewData["Title"] = "Delete Permanently";
+    Layout = "_AdminLayout";
+}
+
+<h1>Permanently Delete Task</h1>
+
+<p style="color:red">
+    <strong>Warning:</strong> this cannot be undone. This will permanently remove the task
+    and all related data.
+</p>
+
+<ul>
+    <li>Title: @Model.Title</li>
+    <li>Status: @Model.Status</li>
+</ul>
+
+<h3>This will also delete:</h3>
+<ul>
+    <li>@ViewBag.AssignmentCount task assignment(s)</li>
+    <li>@ViewBag.CompletionCount completion record(s)</li>
+    <li>@ViewBag.CommentCount comment(s)</li>
+    <li>@ViewBag.HistoryCount history record(s)</li>
+</ul>
+
+<form asp-controller="AdminRecycleBin" asp-action="DeletePermanently" method="post">
+    <input type="hidden" name="id" value="@Model.TaskId" />
+    <button type="submit">Yes, Delete Permanently</button>
+    <a asp-controller="AdminRecycleBin" asp-action="Index">Cancel</a>
+</form>

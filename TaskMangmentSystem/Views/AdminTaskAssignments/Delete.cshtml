@@ -1,0 +1,22 @@
+﻿@model TaskManagement.Models.AdminAssignmentListRow
+
+@{
+    ViewData["Title"] = "Unassign User";
+    Layout = "_AdminLayout";
+}
+
+<h1>Unassign User from Task</h1>
+
+<p>Are you sure you want to remove this assignment?</p>
+
+<ul>
+    <li>Task: #@Model.TaskId - @Model.TaskTitle</li>
+    <li>User: @Model.UserName</li>
+    <li>Assigned At: @Model.AssignedAt.ToString("yyyy-MM-dd HH:mm")</li>
+</ul>
+
+<form asp-controller="AdminTaskAssignments" asp-action="Delete" method="post">
+    <input type="hidden" name="id" value="@Model.Id" />
+    <button type="submit">Yes, Unassign</button>
+    <a asp-controller="AdminTaskAssignments" asp-action="Index">Cancel</a>
+</form>

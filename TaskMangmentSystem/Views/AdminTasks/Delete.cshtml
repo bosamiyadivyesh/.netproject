@@ -1,0 +1,25 @@
+﻿@model TaskManagement.Models.TaskItem
+
+@{
+    ViewData["Title"] = "Delete Task";
+    Layout = "_AdminLayout";
+}
+
+<h1>Delete Task</h1>
+
+<p>Are you sure you want to move this task to the Recycle Bin?</p>
+
+<ul>
+    <li>Title: @Model.Title</li>
+    <li>Status: @Model.Status</li>
+</ul>
+
+<p style="color:orange">
+    Note: this is a soft delete. The task will move to the Recycle Bin and can be restored later.
+</p>
+
+<form asp-controller="AdminTasks" asp-action="Delete" method="post">
+    <input type="hidden" name="id" value="@Model.TaskId" />
+    <button type="submit">Yes, Move to Recycle Bin</button>
+    <a asp-controller="AdminTasks" asp-action="Index">Cancel</a>
+</form>

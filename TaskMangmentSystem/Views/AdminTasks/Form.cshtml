@@ -1,0 +1,95 @@
+﻿@model TaskManagement.Models.AdminTaskFormViewModel
+
+@{
+    ViewData["Title"] = Model.IsEdit ? "Edit Task" : "Add Task";
+    Layout = "_AdminLayout";
+}
+
+<h1>@(Model.IsEdit ? "Edit Task" : "Add New Task")</h1>
+
+<form asp-controller="AdminTasks" asp-action="@(Model.IsEdit ? "Edit" : "Create")" method="post">
+    @if (Model.IsEdit)
+    {
+        <input type="hidden" asp-for="TaskId" />
+    }
+
+    <div asp-validation-summary="All"></div>
+
+    <div>
+        <label asp-for="Title"></label>
+        <input asp-for="Title" />
+        <span asp-validation-for="Title"></span>
+    </div>
+
+    <div>
+        <label asp-for="Description"></label>
+        <textarea asp-for="Description" rows="4"></textarea>
+        <span asp-validation-for="Description"></span>
+    </div>
+
+    <div>
+        <label asp-for="ProjectId">Project</label>
+        <select asp-for="ProjectId">
+            <option value="">-- None --</option>
+            @foreach (var p in Model.ProjectOptions)
+            {
+                <option value="@p.ProjectId">@p.Name</option>
+            }
+        </select>
+    </div>
+
+    <div>
+        <label asp-for="Status"></label>
+        <select asp-for="Status">
+            <option value="pending">Pending</option>
+            <option value="in_progress">In Progress</option>
+            <option value="completed">Completed</option>
+            <option value="cancelled">Cancelled</option>
+        </select>
+    </div>
+
+    <div>
+        <label asp-for="Priority"></label>
+        <select asp-for="Priority">
+            <option value="low">Low</option>
+            <option value="medium">Medium</option>
+            <option value="high">High</option>
+            <option value="urgent">Urgent</option>
+        </select>
+    </div>
+
+    <div>
+        <label asp-for="Deadline"></label>
+        <input asp-for="Deadline" type="datetime-local" />
+    </div>
+
+    <div>
+        <label asp-for="IsRecurring"></label>
+        <input asp-for="IsRecurring" type="checkbox" />
+    </div>
+
+    <div>
+        <label asp-for="AssignedTo">Assign To</label>
+        <select asp-for="AssignedTo">
+            <option value="">-- Unassigned --</option>
+            @foreach (var u in Model.UserOptions)
+            {
+                <option value="@u.Id">@u.Name</option>
+            }
+        </select>
+    </div>
+
+    <div>
+        <label asp-for="CreatedBy">Created By</label>
+        <select asp-for="CreatedBy">
+            <option value="">-- None --</option>
+            @foreach (var u in Model.UserOptions)
+            {
+                <option value="@u.Id">@u.Name</option>
+            }
+        </select>
+    </div>
+
+    <button type="submit">@(Model.IsEdit ? "Save Changes" : "Create Task")</button>
+    <a asp-controller="AdminTasks" asp-action="Index">Cancel</a>
+</form>

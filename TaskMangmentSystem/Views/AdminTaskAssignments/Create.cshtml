@@ -1,0 +1,39 @@
+﻿@model TaskManagement.Models.AdminAssignmentFormViewModel
+
+@{
+    ViewData["Title"] = "Assign User to Task";
+    Layout = "_AdminLayout";
+}
+
+<h1>Assign User to Task</h1>
+
+<form asp-controller="AdminTaskAssignments" asp-action="Create" method="post">
+    <div asp-validation-summary="All"></div>
+
+    <div>
+        <label asp-for="TaskId">Task</label>
+        <select asp-for="TaskId">
+            <option value="">-- Select Task --</option>
+            @foreach (var t in Model.TaskOptions)
+            {
+                <option value="@t.TaskId">#@t.TaskId - @t.Title</option>
+            }
+        </select>
+        <span asp-validation-for="TaskId"></span>
+    </div>
+
+    <div>
+        <label asp-for="UserId">User</label>
+        <select asp-for="UserId">
+            <option value="">-- Select User --</option>
+            @foreach (var u in Model.UserOptions)
+            {
+                <option value="@u.Id">@u.Name</option>
+            }
+        </select>
+        <span asp-validation-for="UserId"></span>
+    </div>
+
+    <button type="submit">Assign</button>
+    <a asp-controller="AdminTaskAssignments" asp-action="Index">Cancel</a>
+</form>

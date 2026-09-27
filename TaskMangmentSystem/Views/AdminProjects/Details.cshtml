@@ -1,0 +1,61 @@
+﻿@model TaskManagement.Models.AdminProjectDetailsViewModel
+
+@{
+    ViewData["Title"] = "Project Details";
+    Layout = "_AdminLayout";
+}
+
+<h1>@Model.Name</h1>
+
+<p>@(Model.Description ?? "No description")</p>
+
+<ul>
+    <li>Created By: @(Model.CreatedByName ?? "-")</li>
+    <li>Created At: @Model.CreatedAt.ToString("yyyy-MM-dd HH:mm")</li>
+</ul>
+
+<h3>Task Summary</h3>
+<ul>
+    <li>Total: @Model.TotalTasks</li>
+    <li>Pending: @Model.PendingTasks</li>
+    <li>In Progress: @Model.InProgressTasks</li>
+    <li>Completed: @Model.CompletedTasks</li>
+    <li>Cancelled: @Model.CancelledTasks</li>
+</ul>
+
+<p>
+    <a asp-controller="AdminProjects" asp-action="Edit" asp-route-id="@Model.ProjectId">Edit Project</a>
+    |
+    <a asp-controller="AdminProjects" asp-action="Index">Back to Projects</a>
+</p>
+
+<h3>Tasks in this Project</h3>
+<table border="1" cellpadding="4">
+    <thead>
+        <tr>
+            <th>Task Id</th>
+            <th>Title</th>
+            <th>Status</th>
+            <th>Priority</th>
+            <th>Deadline</th>
+            <th>Assigned To</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var t in Model.Tasks)
+        {
+            <tr>
+                <td>@t.TaskId</td>
+                <td>@t.Title</td>
+                <td>@t.Status</td>
+                <td>@t.Priority</td>
+                <td>@(t.Deadline?.ToString("yyyy-MM-dd HH:mm") ?? "-")</td>
+                <td>@(t.AssignedToName ?? "-")</td>
+            </tr>
+        }
+        @if (!Model.Tasks.Any())
+        {
+            <tr><td colspan="6">No tasks in this project yet.</td></tr>
+        }
+    </tbody>
+</table>

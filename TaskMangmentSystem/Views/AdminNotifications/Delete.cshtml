@@ -1,0 +1,102 @@
+﻿@model List<TaskManagement.Models.AdminNotificationListRow>
+@using TaskManagement.Models
+
+@{
+    ViewData["Title"] = "Notifications";
+    Layout = "_AdminLayout";
+    var userOptions = ViewBag.UserOptions as List<UserOption>;
+}
+
+<h1>Notifications</h1>
+
+@if (TempData["Success"] != null)
+{
+    <p style="color:green">@TempData["Success"]</p>
+}
+
+<p>
+    <a asp-controller="AdminNotifications" asp-action="Create">+ Send New Notification</a>
+</p>
+
+@* Dates below use type="date" (no time). The controller converts them to UTC
+   before querying, since PostgreSQL only accepts UTC DateTimes. *@
+<form method="get" asp-controller="AdminNotifications" asp-action="Index">
+    <select name="userId">
+        <option value="">All Users</option>
+        @if (userOptions != null)
+        {
+            foreach (var u in userOptions)
+            {
+                <option value="@u.Id" selected="@(ViewBag.UserId == u.Id)">@u.Name</option>
+            }
+        }
+    </select>
+
+    <select name="isRead">
+        <option value="">All</option>
+        <option value="true" selected="@(ViewBag.IsRead == true)">Read</option>
+        <option value="false" selected="@(ViewBag.IsRead == false)">Unread</option>
+    </select>
+
+    <label>From: <input type="date" name="fromDate" value="@ViewBag.FromDate" /></label>
+    <label>To: <input type="date" name="toDate" value="@ViewBag.ToDate" /></label>
+
+    <button type="submit">Filter</button>
+    <a asp-controller="AdminNotifications" asp-action="Index">Reset</a>
+</form>
+
+<table border="1" cellpadding="4">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>User</th>
+            <th>Task</th>
+            <th>Message</th>
+            <th>Read?</th>
+            <th>Created At</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var n in Model)
+        {
+            <tr>
+                <td>@n.NotificationId</td>
+                <td>@(n.UserName ?? "-")</td>
+                <td>
+                    @if (n.TaskId != null)
+                    {
+                        <a asp-controller="AdminTasks" asp-action="Details" asp-route-id="@n.TaskId">#@n.TaskId - @n.TaskTitle</a>
+                    }
+                    else
+                    {
+                        <span>-</span>
+                    }
+                </td>
+                <td>@n.Message</td>
+                <td>@(n.IsRead ? "Read" : "Unread")</td>
+                <td>@n.CreatedAt.ToString("yyyy-MM-dd HH:mm")</td>
+                <td>
+                    @if (n.IsRead)
+                    {
+                        <form asp-controller="AdminNotifications" asp-action="MarkUnread" asp-route-id="@n.NotificationId" method="post" style="display:inline">
+                            <button type="submit">Mark Unread</button>
+                        </form>
+                    }
+                    else
+                    {
+                        <form asp-controller="AdminNotifications" asp-action="MarkRead" asp-route-id="@n.NotificationId" method="post" style="display:inline">
+                            <button type="submit">Mark Read</button>
+                        </form>
+                    }
+                    |
+                    <a asp-controller="AdminNotifications" asp-action="Delete" asp-route-id="@n.NotificationId">Delete</a>
+                </td>
+            </tr>
+        }
+        @if (!Model.Any())
+        {
+            <tr><td colspan="7">No notifications found.</td></tr>
+        }
+    </tbody>
+</table>

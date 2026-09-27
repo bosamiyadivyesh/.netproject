@@ -1,0 +1,63 @@
+﻿@model List<TaskManagement.Models.AdminProjectListRow>
+
+@{
+    ViewData["Title"] = "Projects";
+    Layout = "_AdminLayout";
+}
+
+<h1>Projects</h1>
+
+@if (TempData["Success"] != null)
+{
+    <p style="color:green">@TempData["Success"]</p>
+}
+
+<p>
+    <a asp-controller="AdminProjects" asp-action="Create">+ Add New Project</a>
+</p>
+
+<form method="get" asp-controller="AdminProjects" asp-action="Index">
+    <input type="text" name="search" value="@ViewBag.Search" placeholder="Search project name" />
+    <button type="submit">Search</button>
+    <a asp-controller="AdminProjects" asp-action="Index">Reset</a>
+</form>
+
+<table border="1" cellpadding="4">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Created By</th>
+            <th>Total Tasks</th>
+            <th>Completed</th>
+            <th>Created At</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var p in Model)
+        {
+            <tr>
+                <td>@p.ProjectId</td>
+                <td>@p.Name</td>
+                <td>@(p.Description ?? "-")</td>
+                <td>@(p.CreatedByName ?? "-")</td>
+                <td>@p.TotalTasks</td>
+                <td>@p.CompletedTasks</td>
+                <td>@p.CreatedAt.ToString("yyyy-MM-dd HH:mm")</td>
+                <td>
+                    <a asp-controller="AdminProjects" asp-action="Details" asp-route-id="@p.ProjectId">Details</a>
+                    |
+                    <a asp-controller="AdminProjects" asp-action="Edit" asp-route-id="@p.ProjectId">Edit</a>
+                    |
+                    <a asp-controller="AdminProjects" asp-action="Delete" asp-route-id="@p.ProjectId">Delete</a>
+                </td>
+            </tr>
+        }
+        @if (!Model.Any())
+        {
+            <tr><td colspan="8">No projects found.</td></tr>
+        }
+    </tbody>
+</table>

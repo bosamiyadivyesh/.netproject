@@ -1,0 +1,68 @@
+﻿@model List<TaskManagement.Models.AdminDeletedTaskRow>
+
+@{
+    ViewData["Title"] = "Recycle Bin";
+    Layout = "_AdminLayout";
+}
+
+<h1>Recycle Bin (Deleted Tasks)</h1>
+
+@if (TempData["Success"] != null)
+{
+    <p style="color:green">@TempData["Success"]</p>
+}
+
+<p>
+    <a asp-controller="AdminTasks" asp-action="Index">Back to Tasks</a>
+</p>
+
+@* Dates below use type="date" (no time). The controller converts them to UTC
+   before querying, since PostgreSQL only accepts UTC DateTimes. *@
+<form method="get" asp-controller="AdminRecycleBin" asp-action="Index">
+    <input type="text" name="search" value="@ViewBag.Search" placeholder="Search title" />
+    <label>Deleted From: <input type="date" name="fromDate" value="@ViewBag.FromDate" /></label>
+    <label>Deleted To: <input type="date" name="toDate" value="@ViewBag.ToDate" /></label>
+    <button type="submit">Filter</button>
+    <a asp-controller="AdminRecycleBin" asp-action="Index">Reset</a>
+</form>
+
+<table border="1" cellpadding="4">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Title</th>
+            <th>Project</th>
+            <th>Status</th>
+            <th>Priority</th>
+            <th>Assigned To</th>
+            <th>Created At</th>
+            <th>Deleted At</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var t in Model)
+        {
+            <tr>
+                <td>@t.TaskId</td>
+                <td>@t.Title</td>
+                <td>@(t.ProjectName ?? "-")</td>
+                <td>@t.Status</td>
+                <td>@t.Priority</td>
+                <td>@(t.AssignedToName ?? "-")</td>
+                <td>@t.CreatedAt.ToString("yyyy-MM-dd HH:mm")</td>
+                <td>@(t.DeletedAt?.ToString("yyyy-MM-dd HH:mm") ?? "-")</td>
+                <td>
+                    <form asp-controller="AdminRecycleBin" asp-action="Restore" asp-route-id="@t.TaskId" method="post" style="display:inline">
+                        <button type="submit">Restore</button>
+                    </form>
+                    <a asp-controller="AdminRecycleBin" asp-action="DeletePermanently" asp-route-id="@t.TaskId">Delete Permanently</a>
+                </td>
+            </tr>
+        }
+        @if (!Model.Any())
+        {
+            <tr><td colspan="9">Recycle Bin is empty.</td></tr>
+        }
+    </tbody>
+</table>

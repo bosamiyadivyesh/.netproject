@@ -1,0 +1,40 @@
+﻿@model TaskManagement.Models.AdminCompletionDetailsViewModel
+
+@{
+    ViewData["Title"] = "Completion Details";
+    Layout = "_AdminLayout";
+}
+
+<h1>Completion Details</h1>
+
+<h3>Task</h3>
+<ul>
+    <li>Task: #@Model.TaskId - @Model.TaskTitle</li>
+    <li>Description: @(Model.TaskDescription ?? "-")</li>
+    <li>Status: @Model.TaskStatus</li>
+    <li>Project: @(Model.ProjectName ?? "-")</li>
+</ul>
+
+<h3>Completion</h3>
+<ul>
+    <li>Completed By: @(Model.CompletedByName ?? "-") (@(Model.CompletedByEmail ?? "-"))</li>
+    <li>Completed At: @Model.CompletedAt.ToString("yyyy-MM-dd HH:mm")</li>
+    <li>Notes: @(Model.Notes ?? "-")</li>
+    <li>
+        PDF Proof:
+        @if (!string.IsNullOrEmpty(Model.PdfUrl))
+        {
+            <a href="@Model.PdfUrl" target="_blank">View / Download PDF</a>
+        }
+        else
+        {
+            <span>Not uploaded</span>
+        }
+    </li>
+</ul>
+
+<p>
+    <a asp-controller="AdminTasks" asp-action="Details" asp-route-id="@Model.TaskId">View Full Task</a>
+    |
+    <a asp-controller="AdminTaskCompletions" asp-action="Index">Back to Completions</a>
+</p>

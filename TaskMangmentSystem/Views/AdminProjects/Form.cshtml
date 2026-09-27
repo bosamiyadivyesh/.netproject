@@ -1,0 +1,43 @@
+﻿@model TaskManagement.Models.AdminProjectFormViewModel
+
+@{
+    ViewData["Title"] = Model.IsEdit ? "Edit Project" : "Add Project";
+    Layout = "_AdminLayout";
+}
+
+<h1>@(Model.IsEdit ? "Edit Project" : "Add New Project")</h1>
+
+<form asp-controller="AdminProjects" asp-action="@(Model.IsEdit ? "Edit" : "Create")" method="post">
+    @if (Model.IsEdit)
+    {
+        <input type="hidden" asp-for="ProjectId" />
+    }
+
+    <div asp-validation-summary="All"></div>
+
+    <div>
+        <label asp-for="Name"></label>
+        <input asp-for="Name" />
+        <span asp-validation-for="Name"></span>
+    </div>
+
+    <div>
+        <label asp-for="Description"></label>
+        <textarea asp-for="Description" rows="4"></textarea>
+        <span asp-validation-for="Description"></span>
+    </div>
+
+    <div>
+        <label asp-for="CreatedBy">Owner</label>
+        <select asp-for="CreatedBy">
+            <option value="">-- None --</option>
+            @foreach (var u in Model.UserOptions)
+            {
+                <option value="@u.Id">@u.Name</option>
+            }
+        </select>
+    </div>
+
+    <button type="submit">@(Model.IsEdit ? "Save Changes" : "Create Project")</button>
+    <a asp-controller="AdminProjects" asp-action="Index">Cancel</a>
+</form>

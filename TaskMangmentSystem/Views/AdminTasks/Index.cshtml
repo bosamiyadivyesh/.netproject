@@ -1,0 +1,113 @@
+﻿@model List<TaskManagement.Models.AdminTaskListRow>
+@using TaskManagement.Models
+
+@{
+    ViewData["Title"] = "Tasks";
+    Layout = "_AdminLayout";
+    var projectOptions = ViewBag.ProjectOptions as List<ProjectOption>;
+    var userOptions = ViewBag.UserOptions as List<UserOption>;
+}
+
+<h1>Tasks</h1>
+
+@if (TempData["Success"] != null)
+{
+    <p style="color:green">@TempData["Success"]</p>
+}
+
+<p>
+    <a asp-controller="AdminTasks" asp-action="Create">+ Add New Task</a>
+    |
+    <a asp-controller="AdminRecycleBin" asp-action="Index">View Recycle Bin</a>
+</p>
+
+<form method="get" asp-controller="AdminTasks" asp-action="Index">
+    <input type="text" name="search" value="@ViewBag.Search" placeholder="Search title" />
+
+    <select name="status">
+        <option value="">All Status</option>
+        <option value="pending" selected="@(ViewBag.Status == "pending")">Pending</option>
+        <option value="in_progress" selected="@(ViewBag.Status == "in_progress")">In Progress</option>
+        <option value="completed" selected="@(ViewBag.Status == "completed")">Completed</option>
+        <option value="cancelled" selected="@(ViewBag.Status == "cancelled")">Cancelled</option>
+    </select>
+
+    <select name="priority">
+        <option value="">All Priority</option>
+        <option value="low" selected="@(ViewBag.Priority == "low")">Low</option>
+        <option value="medium" selected="@(ViewBag.Priority == "medium")">Medium</option>
+        <option value="high" selected="@(ViewBag.Priority == "high")">High</option>
+        <option value="urgent" selected="@(ViewBag.Priority == "urgent")">Urgent</option>
+    </select>
+
+    <select name="projectId">
+        <option value="">All Projects</option>
+        @if (projectOptions != null)
+        {
+            foreach (var p in projectOptions)
+            {
+                <option value="@p.ProjectId" selected="@(ViewBag.ProjectId == p.ProjectId)">@p.Name</option>
+            }
+        }
+    </select>
+
+    <select name="assignedTo">
+        <option value="">All Users</option>
+        @if (userOptions != null)
+        {
+            foreach (var u in userOptions)
+            {
+                <option value="@u.Id" selected="@(ViewBag.AssignedTo == u.Id)">@u.Name</option>
+            }
+        }
+    </select>
+
+    <button type="submit">Filter</button>
+    <a asp-controller="AdminTasks" asp-action="Index">Reset</a>
+</form>
+
+<table border="1" cellpadding="4">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Title</th>
+            <th>Project</th>
+            <th>Status</th>
+            <th>Priority</th>
+            <th>Deadline</th>
+            <th>Recurring</th>
+            <th>Assigned To</th>
+            <th>Created By</th>
+            <th>Created At</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var t in Model)
+        {
+            <tr>
+                <td>@t.TaskId</td>
+                <td>@t.Title</td>
+                <td>@(t.ProjectName ?? "-")</td>
+                <td>@t.Status</td>
+                <td>@t.Priority</td>
+                <td>@(t.Deadline?.ToString("yyyy-MM-dd HH:mm") ?? "-")</td>
+                <td>@(t.IsRecurring ? "Yes" : "No")</td>
+                <td>@(t.AssignedToName ?? "-")</td>
+                <td>@(t.CreatedByName ?? "-")</td>
+                <td>@t.CreatedAt.ToString("yyyy-MM-dd HH:mm")</td>
+                <td>
+                    <a asp-controller="AdminTasks" asp-action="Details" asp-route-id="@t.TaskId">Details</a>
+                    |
+                    <a asp-controller="AdminTasks" asp-action="Edit" asp-route-id="@t.TaskId">Edit</a>
+                    |
+                    <a asp-controller="AdminTasks" asp-action="Delete" asp-route-id="@t.TaskId">Delete</a>
+                </td>
+            </tr>
+        }
+        @if (!Model.Any())
+        {
+            <tr><td colspan="11">No tasks found.</td></tr>
+        }
+    </tbody>
+</table>

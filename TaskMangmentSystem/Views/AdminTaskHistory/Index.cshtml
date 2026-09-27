@@ -1,0 +1,88 @@
+﻿@model List<TaskManagement.Models.AdminHistoryListRow>
+@using TaskManagement.Models
+
+@{
+    ViewData["Title"] = "Task History (Audit Log)";
+    Layout = "_AdminLayout";
+    var taskOptions = ViewBag.TaskOptions as List<TaskOption>;
+    var userOptions = ViewBag.UserOptions as List<UserOption>;
+    var actionOptions = ViewBag.ActionOptions as List<string>;
+}
+
+<h1>Task History (Audit Log)</h1>
+<p>This page is read-only. It shows every change ever recorded for every task.</p>
+
+<form method="get" asp-controller="AdminTaskHistory" asp-action="Index">
+    <select name="taskId">
+        <option value="">All Tasks</option>
+        @if (taskOptions != null)
+        {
+            foreach (var t in taskOptions)
+            {
+                <option value="@t.TaskId" selected="@(ViewBag.TaskId == t.TaskId)">#@t.TaskId - @t.Title</option>
+            }
+        }
+    </select>
+
+    <select name="action">
+        <option value="">All Actions</option>
+        @if (actionOptions != null)
+        {
+            foreach (var a in actionOptions)
+            {
+                <option value="@a" selected="@(ViewBag.Action == a)">@a</option>
+            }
+        }
+    </select>
+
+    <select name="userId">
+        <option value="">All Users</option>
+        @if (userOptions != null)
+        {
+            foreach (var u in userOptions)
+            {
+                <option value="@u.Id" selected="@(ViewBag.UserId == u.Id)">@u.Name</option>
+            }
+        }
+    </select>
+
+    <label>From: <input type="date" name="fromDate" value="@ViewBag.FromDate" /></label>
+    <label>To: <input type="date" name="toDate" value="@ViewBag.ToDate" /></label>
+
+    <button type="submit">Filter</button>
+    <a asp-controller="AdminTaskHistory" asp-action="Index">Reset</a>
+</form>
+
+<table border="1" cellpadding="4">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Task</th>
+            <th>Action</th>
+            <th>Old Value</th>
+            <th>New Value</th>
+            <th>Changed By</th>
+            <th>Changed At</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var h in Model)
+        {
+            <tr>
+                <td>@h.HistoryId</td>
+                <td>
+                    <a asp-controller="AdminTasks" asp-action="Details" asp-route-id="@h.TaskId">#@h.TaskId - @h.TaskTitle</a>
+                </td>
+                <td>@h.Action</td>
+                <td>@(h.OldValue ?? "-")</td>
+                <td>@(h.NewValue ?? "-")</td>
+                <td>@(h.ChangedByName ?? "System")</td>
+                <td>@h.ChangedAt.ToString("yyyy-MM-dd HH:mm")</td>
+            </tr>
+        }
+        @if (!Model.Any())
+        {
+            <tr><td colspan="7">No history records found.</td></tr>
+        }
+    </tbody>
+</table>
