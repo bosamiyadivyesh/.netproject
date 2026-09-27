@@ -1,0 +1,56 @@
+@{
+    var currentUserName = User?.Identity?.Name ?? "User";
+    var currentUserRole = User?.FindFirst(System.Security.Claims.ClaimTypes.Role)?.Value ?? "user";
+    var initial = currentUserName.Length > 0 ? currentUserName.Substring(0, 1).ToUpper() : "U";
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Workspace - TaskMangmentSystem</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="~/css/user-theme.css" asp-append-version="true" />
+</head>
+<body>
+    <div class="user-shell">
+        <aside class="user-sidebar">
+            <div class="user-brand">
+                <div class="user-brand-icon"><i class="bi bi-kanban-fill"></i></div>
+                <div class="user-brand-name">TaskFlow<small>My Workspace</small></div>
+            </div>
+            <nav>
+                <a href="/UserDashboard"><i class="bi bi-speedometer2"></i> Dashboard</a>
+                <a href="/UserTasks"><i class="bi bi-check2-square"></i> My Tasks</a>
+                <a href="/UserProjects"><i class="bi bi-briefcase-fill"></i> My Projects</a>
+                <a href="/UserTaskHistory"><i class="bi bi-clock-history"></i> Task History</a>
+                <a href="/UserNotifications"><i class="bi bi-bell-fill"></i> Notifications</a>
+                <a href="/UserProfile"><i class="bi bi-person-circle"></i> My Profile</a>
+                <a class="nav-divider nav-logout" href="/User/Logout"><i class="bi bi-box-arrow-right"></i> Logout</a>
+            </nav>
+        </aside>
+
+        <div class="user-main">
+            <div class="user-topbar">
+                <div class="user-chip">
+                    <div class="user-chip-avatar">@initial</div>
+                    <div>
+                        <span class="user-chip-name">@currentUserName</span>
+                        <small class="user-chip-role">@currentUserRole</small>
+                    </div>
+                </div>
+                <a class="user-topbar-logout" href="/User/Logout"><i class="bi bi-box-arrow-right"></i> Logout</a>
+            </div>
+
+            <main class="user-content">
+                @RenderBody()
+            </main>
+        </div>
+    </div>
+
+    <script src="~/js/user-ui.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

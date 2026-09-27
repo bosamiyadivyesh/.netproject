@@ -1,0 +1,90 @@
+@model TaskManagement.Models.UserDashboardViewModel
+
+@{
+    ViewData["Title"] = "My Dashboard";
+    Layout = "_UserLayout";
+}
+
+<h1>Welcome, @Model.UserName</h1>
+<p>Here's what's happening with your tasks today.</p>
+
+<div class="u-card">
+    <div class="u-card-head"><h3>My Task Summary</h3></div>
+    <div class="u-stat-grid">
+        <div class="u-stat-card"><div class="u-stat-icon teal"><i class="bi bi-collection"></i></div>
+            <div><div class="u-stat-value">@Model.TotalMyTasks</div><div class="u-stat-label">Total Tasks</div></div></div>
+        <div class="u-stat-card"><div class="u-stat-icon amber"><i class="bi bi-hourglass-split"></i></div>
+            <div><div class="u-stat-value">@Model.PendingTasks</div><div class="u-stat-label">Pending</div></div></div>
+        <div class="u-stat-card"><div class="u-stat-icon blue"><i class="bi bi-arrow-repeat"></i></div>
+            <div><div class="u-stat-value">@Model.InProgressTasks</div><div class="u-stat-label">In Progress</div></div></div>
+        <div class="u-stat-card"><div class="u-stat-icon green"><i class="bi bi-check-circle-fill"></i></div>
+            <div><div class="u-stat-value">@Model.CompletedTasks</div><div class="u-stat-label">Completed</div></div></div>
+        <div class="u-stat-card"><div class="u-stat-icon red"><i class="bi bi-alarm-fill"></i></div>
+            <div><div class="u-stat-value">@Model.OverdueTasks</div><div class="u-stat-label">Overdue</div></div></div>
+        <div class="u-stat-card"><div class="u-stat-icon pink"><i class="bi bi-bell-fill"></i></div>
+            <div><div class="u-stat-value">@Model.UnreadNotifications</div><div class="u-stat-label">Unread Notifications</div></div></div>
+    </div>
+</div>
+
+<p class="u-actions">
+    <a asp-controller="UserTasks" asp-action="Index"><i class="bi bi-check2-square"></i> View All My Tasks</a>
+    <a asp-controller="UserNotifications" asp-action="Index"><i class="bi bi-bell"></i> View Notifications</a>
+</p>
+
+<div class="u-card">
+    <div class="u-card-head"><h3><i class="bi bi-calendar-event"></i> Upcoming Deadlines</h3></div>
+    <table border="1" cellpadding="4">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Project</th>
+                <th>Status</th>
+                <th>Priority</th>
+                <th>Deadline</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var t in Model.UpcomingDeadlines)
+            {
+                <tr>
+                    <td><a asp-controller="UserTasks" asp-action="Details" asp-route-id="@t.TaskId">@t.Title</a></td>
+                    <td>@(t.ProjectName ?? "-")</td>
+                    <td>@t.Status</td>
+                    <td>@t.Priority</td>
+                    <td>@(t.Deadline?.ToString("yyyy-MM-dd HH:mm") ?? "-")</td>
+                </tr>
+            }
+            @if (!Model.UpcomingDeadlines.Any())
+            {
+                <tr><td colspan="5">No upcoming deadlines.</td></tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<div class="u-card">
+    <div class="u-card-head"><h3><i class="bi bi-bell"></i> Recent Notifications</h3></div>
+    <table border="1" cellpadding="4">
+        <thead>
+            <tr>
+                <th>Message</th>
+                <th>Status</th>
+                <th>Created At</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var n in Model.RecentNotifications)
+            {
+                <tr>
+                    <td>@n.Message</td>
+                    <td>@(n.IsRead ? "Read" : "Unread")</td>
+                    <td>@n.CreatedAt.ToString("yyyy-MM-dd HH:mm")</td>
+                </tr>
+            }
+            @if (!Model.RecentNotifications.Any())
+            {
+                <tr><td colspan="3">No notifications yet.</td></tr>
+            }
+        </tbody>
+    </table>
+</div>

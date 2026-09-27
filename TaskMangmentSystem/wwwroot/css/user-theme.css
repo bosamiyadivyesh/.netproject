@@ -1,0 +1,756 @@
+﻿/* ============================================================
+   TaskManagement — User Workspace Theme
+   Companion to admin-theme.css. Auto-styles raw Razor markup
+   inside .user-content — no view logic changes required.
+   ============================================================ */
+:root {
+    --u-sb-bg: #062821;
+    --u-sb-bg2: #0a3a30;
+    --u-accent: #0d9488;
+    --u-accent2: #059669;
+    --u-bg: #f4f7f8;
+    --u-card: #ffffff;
+    --u-text: #0f172a;
+    --u-muted: #64748b;
+    --u-border: #e4e9ea;
+    --u-radius: 14px;
+    --u-shadow: 0 10px 30px rgba(6,40,33,.06);
+    --u-success: #16a34a;
+    --u-warning: #d97706;
+    --u-danger: #dc2626;
+    --u-info: #2563eb;
+}
+
+.user-shell {
+    display: flex;
+    min-height: 100vh;
+    font-family: 'Inter',system-ui,sans-serif;
+    background: var(--u-bg);
+    color: var(--u-text);
+    box-sizing: border-box;
+}
+
+.user-shell *, .user-shell *::before, .user-shell *::after {
+    box-sizing: border-box;
+}
+
+/* ---------- Sidebar ---------- */
+.user-sidebar {
+    width: 262px;
+    flex-shrink: 0;
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    background: linear-gradient(180deg,var(--u-sb-bg),var(--u-sb-bg2));
+    color: #cbd5e1;
+    padding: 26px 16px;
+}
+
+.user-brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 0 10px 22px;
+    border-bottom: 1px solid rgba(255,255,255,.08);
+    margin-bottom: 18px;
+}
+
+.user-brand-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 12px;
+    display: grid;
+    place-items: center;
+    color: #fff;
+    font-size: 1.1rem;
+    background: linear-gradient(135deg,var(--u-accent),var(--u-accent2));
+    box-shadow: 0 6px 16px rgba(13,148,136,.4);
+}
+
+.user-brand-name {
+    font-weight: 700;
+    font-size: 1.02rem;
+    color: #fff;
+    line-height: 1.2;
+}
+
+.user-brand-name small {
+    display: block;
+    font-weight: 500;
+    font-size: .68rem;
+    color: #5eead4;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+}
+
+.user-sidebar nav {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    flex: 1;
+}
+
+.user-sidebar nav a {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 14px;
+    border-radius: 10px;
+    color: #94a3b8;
+    text-decoration: none;
+    font-size: .9rem;
+    font-weight: 500;
+    transition: .18s;
+    white-space: nowrap;
+}
+
+.user-sidebar nav a i {
+    font-size: 1rem;
+    width: 20px;
+    text-align: center;
+}
+
+.user-sidebar nav a:hover {
+    background: rgba(255,255,255,.06);
+    color: #fff;
+    transform: translateX(3px);
+}
+
+.user-sidebar nav a.active {
+    background: linear-gradient(135deg,rgba(13,148,136,.28),rgba(5,150,105,.2));
+    color: #fff;
+    box-shadow: inset 0 0 0 1px rgba(94,234,212,.35);
+}
+
+.user-sidebar nav a.nav-divider {
+    margin-top: 10px;
+    padding-top: 16px;
+    border-top: 1px solid rgba(255,255,255,.08);
+}
+
+.user-sidebar .nav-logout {
+    color: #fca5a5 !important;
+}
+
+.user-sidebar .nav-logout:hover {
+    background: rgba(220,38,38,.15) !important;
+    color: #fecaca !important;
+}
+
+/* ---------- Main column ---------- */
+.user-main {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+/* ---------- Topbar ---------- */
+.user-topbar {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 14px;
+    padding: 16px 38px;
+    background: var(--u-card);
+    border-bottom: 1px solid var(--u-border);
+}
+
+.user-chip {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 6px 8px 6px 6px;
+    border-radius: 99px;
+    background: #f1f5f4;
+    border: 1px solid var(--u-border);
+}
+
+.user-chip-avatar {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    color: #fff;
+    font-weight: 700;
+    font-size: .8rem;
+    background: linear-gradient(135deg,var(--u-accent),var(--u-accent2));
+}
+
+.user-chip-name {
+    font-size: .84rem;
+    font-weight: 600;
+    color: var(--u-text);
+    padding-right: 4px;
+}
+
+.user-chip-role {
+    display: block;
+    font-size: .65rem;
+    color: var(--u-muted);
+    text-transform: uppercase;
+    letter-spacing: .06em;
+    font-weight: 600;
+}
+
+.user-topbar-logout {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 15px;
+    border-radius: 10px;
+    text-decoration: none;
+    font-size: .82rem;
+    font-weight: 600;
+    background: #fef2f2;
+    color: #b91c1c;
+    border: 1px solid #fecaca;
+    transition: .18s;
+}
+
+.user-topbar-logout:hover {
+    background: #dc2626;
+    color: #fff;
+}
+
+/* ---------- Content ---------- */
+.user-content {
+    flex: 1;
+    min-width: 0;
+    padding: 34px 38px;
+}
+
+.user-content h1 {
+    font-size: 1.55rem;
+    font-weight: 800;
+    letter-spacing: -.02em;
+    margin: 0 0 6px;
+}
+
+.user-content h1::before {
+    content: "";
+    display: inline-block;
+    width: 9px;
+    height: 22px;
+    border-radius: 4px;
+    margin-right: 12px;
+    vertical-align: -3px;
+    background: linear-gradient(180deg,var(--u-accent),var(--u-accent2));
+}
+
+.user-content h3 {
+    font-size: 1.02rem;
+    font-weight: 700;
+    margin: 30px 0 12px;
+    color: #1e293b;
+}
+
+.user-content h4 {
+    font-size: .92rem;
+    font-weight: 700;
+    margin: 22px 0 10px;
+    color: #1e293b;
+}
+
+.user-content > p {
+    color: #475569;
+}
+
+/* ---------- Section / card wrapper (added around tables & blocks) ---------- */
+.user-content .u-card {
+    background: var(--u-card);
+    border: 1px solid var(--u-border);
+    border-radius: var(--u-radius);
+    box-shadow: var(--u-shadow);
+    padding: 22px 24px;
+    margin: 14px 0 22px;
+}
+
+.user-content .u-card-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 14px;
+}
+
+.user-content .u-card-head h3, .user-content .u-card-head h4 {
+    margin: 0;
+}
+
+.user-content .u-card > table {
+    margin: 0;
+    box-shadow: none;
+    border: 1px solid var(--u-border);
+}
+
+/* ---------- Tables (raw <table border="1"> auto-styled) ---------- */
+.user-content table {
+    display: block;
+    width: 100%;
+    overflow-x: auto;
+    white-space: nowrap;
+    border-collapse: separate;
+    border-spacing: 0;
+    background: var(--u-card);
+    border: 1px solid var(--u-border);
+    border-radius: var(--u-radius);
+    box-shadow: var(--u-shadow);
+    margin: 14px 0;
+}
+
+.user-content th {
+    background: #f6faf9;
+    color: #475569;
+    font-size: .72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .07em;
+    padding: 13px 16px;
+    text-align: left;
+    border-bottom: 1px solid var(--u-border);
+}
+
+.user-content td {
+    padding: 12px 16px;
+    border-bottom: 1px solid #f1f4f9;
+    font-size: .88rem;
+    color: #334155;
+    vertical-align: middle;
+}
+
+.user-content tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.user-content tbody tr {
+    transition: .15s;
+}
+
+.user-content tbody tr:hover {
+    background: #f7fbfa;
+}
+
+/* Overdue row highlighting (keeps existing inline style, just refines it) */
+.user-content tr[style*="ffe5e5"] {
+    background: #fef2f2 !important;
+    box-shadow: inset 3px 0 0 var(--u-danger);
+}
+
+.user-content tr[style*="ffe5e5"]:hover {
+    background: #fee2e2 !important;
+}
+
+.user-content td a {
+    color: var(--u-accent);
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.user-content td a:hover {
+    text-decoration: underline;
+}
+
+.user-content table form {
+    margin: 0;
+}
+
+/* ---------- Filter bars (GET forms) ---------- */
+.user-content form[method="get"] {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+    background: var(--u-card);
+    border: 1px solid var(--u-border);
+    border-radius: var(--u-radius);
+    box-shadow: var(--u-shadow);
+    padding: 14px 16px;
+    margin: 18px 0;
+}
+
+.user-content form[method="get"] input,
+.user-content form[method="get"] select {
+    width: auto;
+    flex: 1 1 170px;
+    min-width: 130px;
+    margin: 0;
+}
+
+.user-content form[method="get"] label {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    margin: 0;
+    font-size: .82rem;
+    white-space: nowrap;
+    color: var(--u-muted);
+    font-weight: 600;
+}
+
+/* ---------- Cards (POST forms) ---------- */
+.user-content form[method="post"]:not([style*="display:inline"]) {
+    background: var(--u-card);
+    border: 1px solid var(--u-border);
+    border-radius: var(--u-radius);
+    box-shadow: var(--u-shadow);
+    padding: 28px;
+    margin: 20px 0;
+    max-width: 780px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.user-content form[style*="display:inline"] {
+    display: inline;
+    background: none;
+    border: 0;
+    padding: 0;
+    margin: 0;
+    box-shadow: none;
+    max-width: none;
+}
+
+/* Small comment-composer form should look lighter, not a big card */
+.user-content form[action*="AddComment"],
+.user-content form.u-comment-form {
+    max-width: 100%;
+    padding: 18px;
+}
+
+/* ---------- Form controls ---------- */
+.user-content label {
+    display: block;
+    font-size: .8rem;
+    font-weight: 600;
+    color: var(--u-muted);
+    margin-bottom: 6px;
+}
+
+.user-content input:not([type=hidden]):not([type=checkbox]):not([type=submit]):not([type=button]):not([type=radio]):not([type=file]),
+.user-content select, .user-content textarea {
+    width: 100%;
+    padding: 10px 14px;
+    font-size: .9rem;
+    font-family: inherit;
+    color: var(--u-text);
+    background: #fbfcfe;
+    border: 1.5px solid var(--u-border);
+    border-radius: 10px;
+    outline: none;
+    transition: .18s;
+}
+
+.user-content input:focus, .user-content select:focus, .user-content textarea:focus {
+    border-color: var(--u-accent);
+    background: #fff;
+    box-shadow: 0 0 0 4px rgba(13,148,136,.12);
+}
+
+.user-content textarea {
+    resize: vertical;
+}
+
+.user-content input[type=checkbox], .user-content input[type=radio] {
+    width: 17px;
+    height: 17px;
+    accent-color: var(--u-accent);
+    margin-right: 8px;
+    vertical-align: -3px;
+}
+
+.user-content select {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%2364748b' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    appearance: none;
+    padding-right: 34px;
+}
+
+/* File input (proof PDF upload) */
+.user-content input[type=file] {
+    display: block;
+    width: 100%;
+    padding: 10px 14px;
+    font-size: .85rem;
+    background: #fbfcfe;
+    border: 1.5px dashed var(--u-border);
+    border-radius: 10px;
+    color: var(--u-muted);
+}
+
+.user-content input[type=file]::file-selector-button {
+    padding: 7px 14px;
+    margin-right: 12px;
+    border: 0;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: .8rem;
+    color: #fff;
+    background: linear-gradient(135deg,var(--u-accent),var(--u-accent2));
+    cursor: pointer;
+}
+
+/* ---------- Buttons ---------- */
+.user-content button[type=submit], .user-content button:not([type]) {
+    padding: 10px 24px;
+    border: 0;
+    border-radius: 10px;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: .88rem;
+    font-weight: 600;
+    color: #fff;
+    background: linear-gradient(135deg,var(--u-accent),var(--u-accent2));
+    box-shadow: 0 6px 16px rgba(13,148,136,.3);
+    transition: .18s;
+    align-self: flex-start;
+}
+
+.user-content button[type=submit]:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 22px rgba(13,148,136,.4);
+}
+
+.user-content table button[type=submit] {
+    padding: 6px 13px;
+    font-size: .76rem;
+    box-shadow: none;
+    align-self: auto;
+}
+
+.user-content form[method="get"] button[type=submit] {
+    align-self: auto;
+}
+
+/* Secondary "Cancel" / text links that sit next to a submit button */
+.user-content form > a[href] {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    align-self: flex-start;
+    padding: 10px 18px;
+    border-radius: 10px;
+    text-decoration: none;
+    font-size: .86rem;
+    font-weight: 600;
+    background: #f1f5f4;
+    color: #475569;
+    border: 1px solid var(--u-border);
+    transition: .18s;
+}
+
+.user-content form > a[href]:hover {
+    background: #e2e8f0;
+}
+
+/* ---------- Action pill links ("View", "Back to...") outside tables/forms ---------- */
+.user-content > p > a[href], .user-content .u-actions > a[href] {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 8px 17px;
+    border-radius: 10px;
+    text-decoration: none;
+    font-size: .84rem;
+    font-weight: 600;
+    background: #ecfdf9;
+    color: #0f766e;
+    border: 1px solid #ccfbf1;
+    transition: .18s;
+    margin-right: 8px;
+}
+
+.user-content > p > a[href]:hover, .user-content .u-actions > a[href]:hover {
+    background: #0f766e;
+    color: #fff;
+    transform: translateY(-1px);
+}
+
+/* ---------- Info lists (details / summary pages) ---------- */
+.user-content ul:not(.stat-list) {
+    list-style: none;
+    padding: 0;
+    margin: 14px 0;
+    display: grid;
+    gap: 8px;
+    max-width: 640px;
+}
+
+.user-content ul:not(.stat-list) li {
+    background: #f8fafc;
+    border: 1px solid var(--u-border);
+    border-radius: 10px;
+    padding: 10px 15px;
+    font-size: .88rem;
+    color: #334155;
+}
+
+/* ---------- Alert / TempData messages ---------- */
+.user-content [style*="color:green"] {
+    display: block;
+    background: #ecfdf5;
+    border: 1px solid #a7f3d0;
+    color: #065f46 !important;
+    padding: 11px 16px;
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: .88rem;
+}
+
+.user-content [style*="color:red"] {
+    display: block;
+    background: #fef2f2;
+    border: 1px solid #fecaca;
+    color: #991b1b !important;
+    padding: 11px 16px;
+    border-radius: 10px;
+    font-size: .88rem;
+}
+
+/* ---------- Validation ---------- */
+.user-content .field-validation-error, .user-content .validation-summary-errors {
+    color: var(--u-danger);
+    font-size: .82rem;
+    font-weight: 600;
+}
+
+.user-content .validation-summary-errors ul {
+    margin: 0;
+    padding-left: 18px;
+    background: none;
+    border: 0;
+    padding: 0 0 0 18px;
+    display: block;
+}
+
+.user-content .validation-summary-errors ul li {
+    background: none;
+    border: 0;
+    padding: 2px 0;
+}
+
+/* ---------- Dashboard / summary stat cards ---------- */
+.u-stat-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill,minmax(190px,1fr));
+    gap: 14px;
+    margin: 16px 0 6px;
+}
+
+.u-stat-card {
+    background: var(--u-card);
+    border: 1px solid var(--u-border);
+    border-radius: var(--u-radius);
+    box-shadow: var(--u-shadow);
+    padding: 18px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    transition: .2s;
+}
+
+.u-stat-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 16px 34px rgba(6,40,33,.1);
+}
+
+.u-stat-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    display: grid;
+    place-items: center;
+    font-size: 1.15rem;
+    color: #fff;
+    flex-shrink: 0;
+}
+
+.u-stat-icon.teal { background: linear-gradient(135deg,#0d9488,#14b8a6); }
+.u-stat-icon.amber { background: linear-gradient(135deg,#f59e0b,#f97316); }
+.u-stat-icon.blue { background: linear-gradient(135deg,#3b82f6,#06b6d4); }
+.u-stat-icon.green { background: linear-gradient(135deg,#10b981,#34d399); }
+.u-stat-icon.red { background: linear-gradient(135deg,#ef4444,#f87171); }
+.u-stat-icon.indigo { background: linear-gradient(135deg,#6366f1,#8b5cf6); }
+.u-stat-icon.pink { background: linear-gradient(135deg,#ec4899,#f472b6); }
+
+.u-stat-value {
+    font-size: 1.35rem;
+    font-weight: 800;
+    line-height: 1.1;
+}
+
+.u-stat-label {
+    font-size: .74rem;
+    font-weight: 600;
+    color: var(--u-muted);
+    text-transform: uppercase;
+    letter-spacing: .05em;
+}
+
+/* ---------- Badges (auto-applied by user-ui.js) ---------- */
+.ubadge {
+    display: inline-block;
+    padding: 4px 11px;
+    border-radius: 99px;
+    font-size: .72rem;
+    font-weight: 700;
+    letter-spacing: .03em;
+}
+
+.ubadge-success { background: #ecfdf5; color: #059669; }
+.ubadge-info { background: #eff6ff; color: #2563eb; }
+.ubadge-warn { background: #fffbeb; color: #d97706; }
+.ubadge-danger { background: #fef2f2; color: #dc2626; }
+.ubadge-muted { background: #f1f5f9; color: #64748b; }
+
+/* ---------- Empty state ---------- */
+.user-content td[colspan] {
+    text-align: center;
+    color: var(--u-muted);
+    font-style: italic;
+    padding: 26px;
+}
+
+/* ---------- Mobile ---------- */
+@media(max-width:991px) {
+    .user-shell {
+        flex-direction: column;
+    }
+
+    .user-sidebar {
+        width: 100%;
+        height: auto;
+        position: static;
+        padding: 16px;
+    }
+
+    .user-brand {
+        padding-bottom: 14px;
+        margin-bottom: 12px;
+    }
+
+    .user-sidebar nav {
+        flex-direction: row;
+        flex-wrap: wrap;
+        overflow-x: auto;
+        padding-bottom: 4px;
+    }
+
+    .user-sidebar nav a {
+        padding: 8px 12px;
+        font-size: .82rem;
+    }
+
+    .user-topbar {
+        padding: 12px 16px;
+    }
+
+    .user-content {
+        padding: 22px 16px;
+    }
+}

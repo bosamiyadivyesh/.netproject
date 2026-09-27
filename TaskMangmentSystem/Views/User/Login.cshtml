@@ -1,103 +1,52 @@
-﻿@{
-    ViewData["Title"] = "Login";
+﻿﻿@{
+ViewData["Title"] = "Login";
 }
 
-<div class="container mt-5">
-
-    <div class="row justify-content-center">
-
-        <div class="col-md-5">
-
-            <div class="card shadow">
-
-                <div class="card-body">
-
-                    <h2 class="text-center mb-4">
-                        Login
-                    </h2>
-
-                    <form asp-controller="User"
-                          asp-action="Login"
-                          method="post">
-
-                        <!-- Email -->
-                        <div class="mb-3">
-
-                            <label for="email"
-                                   class="form-label">
-                                Email
-                            </label>
-
-                            <input type="email"
-                                   id="email"
-                                   name="email"
-                                   class="form-control"
-                                   placeholder="Enter your email"
-                                   required />
-
-                        </div>
-
-
-                        <!-- Password -->
-                        <div class="mb-3">
-
-                            <label for="password"
-                                   class="form-label">
-                                Password
-                            </label>
-
-                            <input type="password"
-                                   id="password"
-                                   name="password"
-                                   class="form-control"
-                                   placeholder="Enter your password"
-                                   required />
-
-                        </div>
-
-
-                        <!-- Error Message -->
-                        @if (ViewBag.Error != null)
-                        {
-                            <div class="alert alert-danger">
-                                @ViewBag.Error
-                            </div>
-                        }
-
-
-                        <!-- Login Button -->
-                        <div class="d-grid">
-
-                            <button type="submit"
-                                    class="btn btn-primary">
-                                Login
-                            </button>
-
-                        </div>
-
-                    </form>
-
-
-                    <!-- Register Link -->
-                    <div class="text-center mt-3">
-
-                        <p>
-                            Don't have an account?
-
-                            <a asp-controller="User"
-                               asp-action="Register">
-                                Register
-                            </a>
-                        </p>
-
+<div class="auth-wrap">
+    <div class="card auth-card">
+        <div class="auth-head">
+            <i class="bi bi-kanban-fill"></i>
+            <h3>Welcome back</h3>
+            <p class="mb-0 small opacity-75">Sign in to your TaskFlow account</p>
+        </div>
+        <div class="card-body p-4">
+            <form asp-controller="User" asp-action="Login" method="post">
+                <div class="mb-3">
+                    <label for="email" class="form-label">Email</label>
+                    <div class="input-group">
+                        <span class="input-group-text bg-white border-end-0"><i class="bi bi-envelope text-muted"></i></span>
+                        <input type="email" id="email" name="email" class="form-control border-start-0 ps-0"
+                               placeholder="Enter your email" required />
                     </div>
-
                 </div>
 
+                <div class="mb-3">
+                    <label for="password" class="form-label">Password</label>
+                    <div class="input-group">
+                        <span class="input-group-text bg-white border-end-0"><i class="bi bi-lock text-muted"></i></span>
+                        <input type="password" id="password" name="password" class="form-control border-start-0 ps-0"
+                               placeholder="Enter your password" required />
+                    </div>
+                </div>
+
+                @if (ViewBag.Error != null)
+                {
+                    <div class="alert alert-danger d-flex align-items-center gap-2 py-2">
+                        <i class="bi bi-exclamation-circle-fill"></i> @ViewBag.Error
+                    </div>
+                }
+
+                <div class="d-grid mt-4">
+                    <button type="submit" class="btn btn-primary btn-lg">
+                        <i class="bi bi-box-arrow-in-right me-1"></i> Login
+                    </button>
+                </div>
+            </form>
+
+            <div class="text-center mt-4">
+                <span class="text-muted small">Don't have an account?</span>
+                <a asp-controller="User" asp-action="Register" class="fw-bold text-decoration-none ms-1">Register</a>
             </div>
-
         </div>
-
     </div>
-
 </div>

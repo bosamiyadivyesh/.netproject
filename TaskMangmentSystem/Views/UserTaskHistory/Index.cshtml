@@ -1,0 +1,97 @@
+@model TaskManagement.Models.UserTaskHistorySummary
+@using TaskManagement.Models
+
+@{
+    ViewData["Title"] = "My Task History";
+    Layout = "_UserLayout";
+    var projectOptions = ViewBag.ProjectOptions as List<ProjectOption>;
+}
+
+<h1>My Task History</h1>
+<p>Every task ever assigned to you, completed or not.</p>
+
+<h3>Summary</h3>
+<div class="u-stat-grid">
+    <div class="u-stat-card"><div class="u-stat-icon teal"><i class="bi bi-collection"></i></div>
+        <div><div class="u-stat-value">@Model.Total</div><div class="u-stat-label">Total</div></div></div>
+    <div class="u-stat-card"><div class="u-stat-icon green"><i class="bi bi-check-circle-fill"></i></div>
+        <div><div class="u-stat-value">@Model.Completed</div><div class="u-stat-label">Completed</div></div></div>
+    <div class="u-stat-card"><div class="u-stat-icon amber"><i class="bi bi-hourglass-split"></i></div>
+        <div><div class="u-stat-value">@Model.Pending</div><div class="u-stat-label">Pending</div></div></div>
+    <div class="u-stat-card"><div class="u-stat-icon blue"><i class="bi bi-arrow-repeat"></i></div>
+        <div><div class="u-stat-value">@Model.InProgress</div><div class="u-stat-label">In Progress</div></div></div>
+    <div class="u-stat-card"><div class="u-stat-icon indigo"><i class="bi bi-x-circle-fill"></i></div>
+        <div><div class="u-stat-value">@Model.Cancelled</div><div class="u-stat-label">Cancelled</div></div></div>
+    <div class="u-stat-card"><div class="u-stat-icon red"><i class="bi bi-alarm-fill"></i></div>
+        <div><div class="u-stat-value">@Model.Overdue</div><div class="u-stat-label">Overdue</div></div></div>
+</div>
+
+@* Dates below use type="date" (no time). The controller converts them to UTC
+   before querying, since PostgreSQL only accepts UTC DateTimes. *@
+<form method="get" asp-controller="UserTaskHistory" asp-action="Index">
+    <select name="status">
+        <option value="">All</option>
+        <option value="completed" selected="@(ViewBag.Status == "completed")">Completed</option>
+        <option value="not_completed" selected="@(ViewBag.Status == "not_completed")">Not Completed</option>
+    </select>
+
+    <select name="projectId">
+        <option value="">All Projects</option>
+        @if (projectOptions != null)
+        {
+            foreach (var p in projectOptions)
+            {
+                <option value="@p.ProjectId" selected="@(ViewBag.ProjectId == p.ProjectId)">@p.Name</option>
+            }
+        }
+    </select>
+
+    <label>From: <input type="date" name="fromDate" value="@ViewBag.FromDate" /></label>
+    <label>To: <input type="date" name="toDate" value="@ViewBag.ToDate" /></label>
+
+    <button type="submit"><i class="bi bi-funnel"></i> Filter</button>
+    <a asp-controller="UserTaskHistory" asp-action="Index">Reset</a>
+</form>
+
+<table border="1" cellpadding="4">
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>Project</th>
+            <th>Status</th>
+            <th>Priority</th>
+            <th>Deadline</th>
+            <th>Completed At</th>
+            <th>Completion Notes</th>
+            <th>PDF</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var t in Model.Rows)
+        {
+            <tr style="@(t.IsOverdue ? "background-color:#ffe5e5" : "")">
+                <td><a asp-controller="UserTasks" asp-action="Details" asp-route-id="@t.TaskId">@t.Title</a></td>
+                <td>@(t.ProjectName ?? "-")</td>
+                <td>@t.Status @(t.IsOverdue ? "(Overdue)" : "")</td>
+                <td>@t.Priority</td>
+                <td>@(t.Deadline?.ToString("yyyy-MM-dd HH:mm") ?? "-")</td>
+                <td>@(t.CompletedAt?.ToString("yyyy-MM-dd HH:mm") ?? "-")</td>
+                <td>@(t.CompletionNotes ?? "-")</td>
+                <td>
+                    @if (!string.IsNullOrEmpty(t.PdfUrl))
+                    {
+                        <a href="@t.PdfUrl" target="_blank">View PDF</a>
+                    }
+                    else
+                    {
+                        <span>-</span>
+                    }
+                </td>
+            </tr>
+        }
+        @if (!Model.Rows.Any())
+        {
+            <tr><td colspan="8">No task history found.</td></tr>
+        }
+    </tbody>
+</table>

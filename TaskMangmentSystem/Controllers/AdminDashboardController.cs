@@ -5,6 +5,7 @@ using TaskManagement.Data;
 using TaskManagement.Models;
 namespace TaskManagement.Areas.Admin.Controllers
 {
+    [Authorize(Roles = "admin")]
     public class AdminDashboardController : Controller
     {
         private readonly AppDbContext _context;

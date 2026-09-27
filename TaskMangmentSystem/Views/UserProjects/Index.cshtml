@@ -1,0 +1,35 @@
+@model List<TaskManagement.Models.UserProjectRow>
+
+@{
+    ViewData["Title"] = "My Projects";
+    Layout = "_UserLayout";
+}
+
+<h1>My Projects</h1>
+<p>Projects that contain at least one task assigned to you.</p>
+
+<table border="1" cellpadding="4">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Description</th>
+            <th>My Tasks</th>
+            <th>My Completed</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var p in Model)
+        {
+            <tr>
+                <td>@p.Name</td>
+                <td>@(p.Description ?? "-")</td>
+                <td>@p.MyTaskCount</td>
+                <td>@p.MyCompletedCount</td>
+            </tr>
+        }
+        @if (!Model.Any())
+        {
+            <tr><td colspan="4">You have no tasks in any project yet.</td></tr>
+        }
+    </tbody>
+</table>

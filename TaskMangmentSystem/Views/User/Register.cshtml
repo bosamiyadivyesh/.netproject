@@ -1,29 +1,60 @@
 ﻿@model TaskManagement.Models.User
 
-<h2>Register</h2>
+@{
+    ViewData["Title"] = "Register";
+}
 
-<form asp-action="Register" method="post">
+<div class="auth-wrap">
+    <div class="card auth-card">
+        <div class="auth-head">
+            <i class="bi bi-person-plus-fill"></i>
+            <h3>Create account</h3>
+            <p class="mb-0 small opacity-75">Join TaskFlow in seconds</p>
+        </div>
+        <div class="card-body p-4">
+            <form asp-action="Register" method="post">
+                <div class="mb-3">
+                    <label asp-for="Name" class="form-label"></label>
+                    <div class="input-group">
+                        <span class="input-group-text bg-white border-end-0"><i class="bi bi-person text-muted"></i></span>
+                        <input asp-for="Name" class="form-control border-start-0 ps-0" placeholder="Your name" />
+                    </div>
+                    <span asp-validation-for="Name" class="text-danger small"></span>
+                </div>
 
-    <div>
-        <label>Name</label>
-        <input asp-for="Name" />
-        <span asp-validation-for="Name"></span>
+                <div class="mb-3">
+                    <label asp-for="Email" class="form-label"></label>
+                    <div class="input-group">
+                        <span class="input-group-text bg-white border-end-0"><i class="bi bi-envelope text-muted"></i></span>
+                        <input asp-for="Email" class="form-control border-start-0 ps-0" placeholder="you@example.com" />
+                    </div>
+                    <span asp-validation-for="Email" class="text-danger small"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Password" class="form-label"></label>
+                    <div class="input-group">
+                        <span class="input-group-text bg-white border-end-0"><i class="bi bi-lock text-muted"></i></span>
+                        <input asp-for="Password" type="password" class="form-control border-start-0 ps-0" placeholder="Choose a password" />
+                    </div>
+                    <span asp-validation-for="Password" class="text-danger small"></span>
+                </div>
+
+                <div class="d-grid mt-4">
+                    <button type="submit" class="btn btn-primary btn-lg">
+                        <i class="bi bi-person-check me-1"></i> Register
+                    </button>
+                </div>
+            </form>
+
+            <div class="text-center mt-4">
+                <span class="text-muted small">Already have an account?</span>
+                <a asp-action="Login" class="fw-bold text-decoration-none ms-1">Login</a>
+            </div>
+        </div>
     </div>
+</div>
 
-    <div>
-        <label>Email</label>
-        <input asp-for="Email" />
-        <span asp-validation-for="Email"></span>
-    </div>
-
-    <div>
-        <label>Password</label>
-        <input asp-for="Password" type="password" />
-        <span asp-validation-for="Password"></span>
-    </div>
-
-    <button type="submit">
-        Register
-    </button>
-
-</form>
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

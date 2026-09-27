@@ -1,0 +1,29 @@
+@model TaskManagement.Models.UserCompleteTaskViewModel
+
+@{
+    ViewData["Title"] = "Complete Task";
+    Layout = "_UserLayout";
+}
+
+<h1>Complete Task: @Model.TaskTitle</h1>
+
+<form asp-controller="UserTasks" asp-action="Complete" asp-route-id="@Model.TaskId" method="post" enctype="multipart/form-data">
+    <input type="hidden" asp-for="TaskId" />
+    <div asp-validation-summary="All"></div>
+
+    <div>
+        <label asp-for="Notes"></label>
+        <textarea asp-for="Notes" rows="4" placeholder="Notes about how you completed this task (optional)"></textarea>
+        <span asp-validation-for="Notes"></span>
+    </div>
+
+    <div>
+        <label>Proof (PDF, optional)</label>
+        <input type="file" name="proofPdf" accept="application/pdf" />
+    </div>
+
+    <div style="display:flex; gap:10px; align-items:center">
+        <button type="submit"><i class="bi bi-check2-circle"></i> Mark as Completed</button>
+        <a asp-controller="UserTasks" asp-action="Details" asp-route-id="@Model.TaskId">Cancel</a>
+    </div>
+</form>

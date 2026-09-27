@@ -1,24 +1,58 @@
+@{
+    var currentUserName = User?.Identity?.Name ?? "Admin";
+    var currentUserRole = User?.FindFirst(System.Security.Claims.ClaimTypes.Role)?.Value ?? "admin";
+    var initial = currentUserName.Length > 0 ? currentUserName.Substring(0, 1).ToUpper() : "A";
+}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - Admin - TaskMangmentSystem</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="~/css/admin-theme.css" asp-append-version="true" />
 </head>
 <body>
-    <header>
-        <h2>Admin Panel</h2>
-        <nav>
-            <a asp-controller="AdminDashboard" asp-action="Index">Dashboard</a>
-            @* Links for the other admin pages will <be></be> added here as we build them *@
-        </nav>
-        <hr />
-    </header>
+    <div class="admin-shell">
+        <aside class="admin-sidebar">
+            <div class="admin-brand">
+                <div class="admin-brand-icon"><i class="bi bi-kanban-fill"></i></div>
+                <div class="admin-brand-name">TaskFlow<small>Admin Console</small></div>
+            </div>
+            <nav>
+                <a href="/AdminDashboard"><i class="bi bi-speedometer2"></i> Dashboard</a>
+                <a href="/AdminUsers"><i class="bi bi-people-fill"></i> Users</a>
+                <a href="/AdminProjects"><i class="bi bi-briefcase-fill"></i> Projects</a>
+                <a href="/AdminTasks"><i class="bi bi-check2-square"></i> Tasks</a>
+                <a href="/AdminTaskAssignments"><i class="bi bi-person-plus-fill"></i> Assignments</a>
+                <a href="/AdminTaskCompletions"><i class="bi bi-clipboard2-check-fill"></i> Completions</a>
+                <a href="/AdminTaskHistory"><i class="bi bi-clock-history"></i> History</a>
+                <a href="/AdminNotifications"><i class="bi bi-bell-fill"></i> Notifications</a>
+                <a href="/AdminRecycleBin"><i class="bi bi-trash3-fill"></i> Recycle Bin</a>
+            </nav>
+        </aside>
 
-    <main>
-        @RenderBody()
-    </main>
+        <div class="admin-main">
+            <div class="admin-topbar">
+                <div class="admin-chip">
+                    <div class="admin-chip-avatar">@initial</div>
+                    <div>
+                        <span class="admin-chip-name">@currentUserName</span>
+                        <small class="admin-chip-role">@currentUserRole</small>
+                    </div>
+                </div>
+                <a class="admin-topbar-logout" href="/User/Logout"><i class="bi bi-box-arrow-right"></i> Logout</a>
+            </div>
 
+            <main class="admin-content">
+                @RenderBody()
+            </main>
+        </div>
+    </div>
+
+    <script src="~/js/admin-ui.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

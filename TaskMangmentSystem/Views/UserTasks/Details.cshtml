@@ -1,0 +1,87 @@
+@model TaskManagement.Models.UserTaskDetailsViewModel
+
+@{
+    ViewData["Title"] = "Task Details";
+    Layout = "_UserLayout";
+}
+
+<h1>@Model.Title</h1>
+<p>@(Model.Description ?? "No description")</p>
+
+<ul>
+    <li>Project: @(Model.ProjectName ?? "-")</li>
+    <li>Status: @Model.Status</li>
+    <li>Priority: @Model.Priority</li>
+    <li>Deadline: @(Model.Deadline?.ToString("yyyy-MM-dd HH:mm") ?? "-")</li>
+    <li>Recurring: @(Model.IsRecurring ? "Yes" : "No")</li>
+</ul>
+
+@if (TempData["Success"] != null)
+{
+    <p style="color:green">@TempData["Success"]</p>
+}
+
+@if (Model.Status != "completed")
+{
+    <p class="u-actions">
+        <a asp-controller="UserTasks" asp-action="UpdateStatus" asp-route-id="@Model.TaskId"><i class="bi bi-arrow-repeat"></i> Update Status</a>
+        <a asp-controller="UserTasks" asp-action="Complete" asp-route-id="@Model.TaskId"><i class="bi bi-check2-circle"></i> Mark as Completed</a>
+    </p>
+}
+
+<p class="u-actions">
+    <a asp-controller="UserTasks" asp-action="Index"><i class="bi bi-arrow-left"></i> Back to My Tasks</a>
+</p>
+
+<div class="u-card">
+    <div class="u-card-head"><h3><i class="bi bi-clipboard2-check"></i> Completion</h3></div>
+    @if (Model.Completion != null)
+    {
+        <ul>
+            <li>Completed At: @Model.Completion.CompletedAt.ToString("yyyy-MM-dd HH:mm")</li>
+            <li>Notes: @(Model.Completion.Notes ?? "-")</li>
+            <li>
+                PDF:
+                @if (!string.IsNullOrEmpty(Model.Completion.PdfUrl))
+                {
+                    <a href="@Model.Completion.PdfUrl" target="_blank">View PDF</a>
+                }
+                else
+                {
+                    <span>-</span>
+                }
+            </li>
+        </ul>
+    }
+    else
+    {
+        <p>Not completed yet.</p>
+    }
+</div>
+
+<div class="u-card">
+    <div class="u-card-head"><h3><i class="bi bi-chat-left-text"></i> Comments</h3></div>
+    <table border="1" cellpadding="4">
+        <thead><tr><th>User</th><th>Comment</th><th>Created At</th></tr></thead>
+        <tbody>
+            @foreach (var c in Model.Comments)
+            {
+                <tr>
+                    <td>@(c.UserName ?? "-")</td>
+                    <td>@c.Comment</td>
+                    <td>@c.CreatedAt.ToString("yyyy-MM-dd HH:mm")</td>
+                </tr>
+            }
+            @if (!Model.Comments.Any())
+            {
+                <tr><td colspan="3">No comments yet.</td></tr>
+            }
+        </tbody>
+    </table>
+
+    <h4>Add a Comment</h4>
+    <form class="u-comment-form" asp-controller="UserTasks" asp-action="AddComment" asp-route-id="@Model.TaskId" method="post">
+        <textarea name="newComment" rows="2" placeholder="Write a comment..."></textarea>
+        <button type="submit"><i class="bi bi-send"></i> Post Comment</button>
+    </form>
+</div>

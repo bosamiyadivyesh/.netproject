@@ -1,0 +1,69 @@
+@model List<TaskManagement.Models.UserNotificationRow>
+
+@{
+    ViewData["Title"] = "My Notifications";
+    Layout = "_UserLayout";
+}
+
+<h1>My Notifications</h1>
+
+@if (TempData["Success"] != null)
+{
+    <p style="color:green">@TempData["Success"]</p>
+}
+
+<form method="get" asp-controller="UserNotifications" asp-action="Index">
+    <select name="isRead" onchange="this.form.submit()">
+        <option value="">All</option>
+        <option value="false" selected="@(ViewBag.IsRead == false)">Unread</option>
+        <option value="true" selected="@(ViewBag.IsRead == true)">Read</option>
+    </select>
+</form>
+
+<form asp-controller="UserNotifications" asp-action="MarkAllRead" method="post" style="display:inline-block; margin-bottom:18px">
+    <button type="submit"><i class="bi bi-check2-all"></i> Mark All as Read</button>
+</form>
+
+<table border="1" cellpadding="4">
+    <thead>
+        <tr>
+            <th>Message</th>
+            <th>Related Task</th>
+            <th>Status</th>
+            <th>Created At</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var n in Model)
+        {
+            <tr>
+                <td>@n.Message</td>
+                <td>
+                    @if (n.TaskId != null)
+                    {
+                        <a asp-controller="UserTasks" asp-action="Details" asp-route-id="@n.TaskId">@n.TaskTitle</a>
+                    }
+                    else
+                    {
+                        <span>-</span>
+                    }
+                </td>
+                <td>@(n.IsRead ? "Read" : "Unread")</td>
+                <td>@n.CreatedAt.ToString("yyyy-MM-dd HH:mm")</td>
+                <td>
+                    @if (!n.IsRead)
+                    {
+                        <form asp-controller="UserNotifications" asp-action="MarkRead" asp-route-id="@n.NotificationId" method="post" style="display:inline">
+                            <button type="submit">Mark Read</button>
+                        </form>
+                    }
+                </td>
+            </tr>
+        }
+        @if (!Model.Any())
+        {
+            <tr><td colspan="5">No notifications.</td></tr>
+        }
+    </tbody>
+</table>

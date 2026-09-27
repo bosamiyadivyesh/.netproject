@@ -81,7 +81,7 @@ namespace TaskManagement.Controllers.Admin
                 return View("Form", vm);
             }
 
-            var user = new User
+            var user = new Models.User
             {
                 Name = vm.Name,
                 Email = vm.Email,

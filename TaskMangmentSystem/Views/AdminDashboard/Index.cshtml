@@ -1,144 +1,169 @@
-﻿@model TaskManagement.Models.AdminDashboard
+@model TaskManagement.Models.AdminDashboard
 
-
+@{
+    ViewData["Title"] = "Admin Dashboard";
+    Layout = "_AdminLayout";
+}
 
 <h1>Admin Dashboard</h1>
+<p>Overview of your entire workspace at a glance.</p>
 
-<h3>Users</h3>
-<ul>
-    <li>Total Users: @Model.TotalUsers</li>
-    <li>Admins: @Model.TotalAdmins</li>
-    <li>Normal Users: @Model.TotalNormalUsers</li>
-</ul>
+<!-- Users Summary Card -->
+<div class="stat-card-container">
+    <div class="card-header"><h3>Users</h3></div>
+    <div class="stat-grid">
+        <div class="stat-card"><div class="stat-icon indigo"><i class="bi bi-people-fill"></i></div>
+            <div><div class="stat-value">@Model.TotalUsers</div><div class="stat-label">Total Users</div></div></div>
+        <div class="stat-card"><div class="stat-icon red"><i class="bi bi-shield-lock-fill"></i></div>
+            <div><div class="stat-value">@Model.TotalAdmins</div><div class="stat-label">Admins</div></div></div>
+        <div class="stat-card"><div class="stat-icon blue"><i class="bi bi-person"></i></div>
+            <div><div class="stat-value">@Model.TotalNormalUsers</div><div class="stat-label">Normal Users</div></div></div>
+    </div>
+</div>
 
-<h3>Projects</h3>
-<ul>
-    <li>Total Projects: @Model.TotalProjects</li>
-</ul>
+<!-- Projects Summary Card -->
+<div class="stat-card-container">
+    <div class="card-header"><h3>Projects</h3></div>
+    <div class="stat-grid">
+        <div class="stat-card"><div class="stat-icon teal"><i class="bi bi-briefcase-fill"></i></div>
+            <div><div class="stat-value">@Model.TotalProjects</div><div class="stat-label">Total Projects</div></div></div>
+    </div>
+</div>
 
-<h3>Tasks</h3>
-<ul>
-    <li>Total Tasks: @Model.TotalTasks</li>
-    <li>Pending: @Model.PendingTasks</li>
-    <li>In Progress: @Model.InProgressTasks</li>
-    <li>Completed: @Model.CompletedTasks</li>
-    <li>Cancelled: @Model.CancelledTasks</li>
-    <li>Overdue: @Model.OverdueTasks</li>
-    <li>Urgent (open): @Model.UrgentTasks</li>
-    <li>Recurring: @Model.RecurringTasks</li>
-    <li>Deleted (Recycle Bin): @Model.DeletedTasks</li>
-</ul>
+<!-- Tasks Summary Card -->
+<div class="stat-card-container">
+    <div class="card-header"><h3>Tasks</h3></div>
+    <div class="stat-grid">
+        <div class="stat-card"><div class="stat-icon slate"><i class="bi bi-collection"></i></div>
+            <div><div class="stat-value">@Model.TotalTasks</div><div class="stat-label">Total Tasks</div></div></div>
+        <div class="stat-card"><div class="stat-icon amber"><i class="bi bi-hourglass-split"></i></div>
+            <div><div class="stat-value">@Model.PendingTasks</div><div class="stat-label">Pending</div></div></div>
+        <div class="stat-card"><div class="stat-icon blue"><i class="bi bi-arrow-repeat"></i></div>
+            <div><div class="stat-value">@Model.InProgressTasks</div><div class="stat-label">In Progress</div></div></div>
+        <div class="stat-card"><div class="stat-icon green"><i class="bi bi-check-circle-fill"></i></div>
+            <div><div class="stat-value">@Model.CompletedTasks</div><div class="stat-label">Completed</div></div></div>
+        <div class="stat-card"><div class="stat-icon red"><i class="bi bi-x-circle-fill"></i></div>
+            <div><div class="stat-value">@Model.CancelledTasks</div><div class="stat-label">Cancelled</div></div></div>
+        <div class="stat-card"><div class="stat-icon red"><i class="bi bi-alarm-fill"></i></div>
+            <div><div class="stat-value">@Model.OverdueTasks</div><div class="stat-label">Overdue</div></div></div>
+        <div class="stat-card"><div class="stat-icon pink"><i class="bi bi-lightning-fill"></i></div>
+            <div><div class="stat-value">@Model.UrgentTasks</div><div class="stat-label">Urgent (open)</div></div></div>
+        <div class="stat-card"><div class="stat-icon indigo"><i class="bi bi-arrow-counterclockwise"></i></div>
+            <div><div class="stat-value">@Model.RecurringTasks</div><div class="stat-label">Recurring</div></div></div>
+        <div class="stat-card"><div class="stat-icon slate"><i class="bi bi-trash3"></i></div>
+            <div><div class="stat-value">@Model.DeletedTasks</div><div class="stat-label">Deleted (Bin)</div></div></div>
+    </div>
+</div>
 
-<h3>Other</h3>
-<ul>
-    <li>Task Assignments: @Model.TotalAssignments</li>
-    <li>Task Completions: @Model.TotalCompletions</li>
-    <li>Task Comments: @Model.TotalComments</li>
-    <li>Unread Notifications: @Model.UnreadNotifications</li>
-</ul>
+<!-- Other Summary Card -->
+<div class="stat-card-container">
+    <div class="card-header"><h3>Other</h3></div>
+    <div class="stat-grid">
+        <div class="stat-card"><div class="stat-icon blue"><i class="bi bi-person-plus"></i></div>
+            <div><div class="stat-value">@Model.TotalAssignments</div><div class="stat-label">Task Assignments</div></div></div>
+        <div class="stat-card"><div class="stat-icon green"><i class="bi bi-clipboard2-check"></i></div>
+            <div><div class="stat-value">@Model.TotalCompletions</div><div class="stat-label">Completions</div></div></div>
+        <div class="stat-card"><div class="stat-icon amber"><i class="bi bi-chat-left-text"></i></div>
+            <div><div class="stat-value">@Model.TotalComments</div><div class="stat-label">Task Comments</div></div></div>
+        <div class="stat-card"><div class="stat-icon pink"><i class="bi bi-bell"></i></div>
+            <div><div class="stat-value">@Model.UnreadNotifications</div><div class="stat-label">Unread Notifications</div></div></div>
+    </div>
+</div>
 
-<h3>Recent Tasks</h3>
-<table border="1" cellpadding="4">
-    <thead>
-        <tr>
-            <th>Task Id</th>
-            <th>Title</th>
-            <th>Project</th>
-            <th>Status</th>
-            <th>Priority</th>
-            <th>Deadline</th>
-            <th>Assigned To</th>
-            <th>Created At</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var t in Model.RecentTasks)
-        {
+<!-- Recent Tasks Table -->
+<div class="table-card">
+    <div class="card-header"><h3>Recent Tasks</h3></div>
+    <table border="1" cellpadding="4">
+        <thead>
             <tr>
-                <td>@t.TaskId</td>
-                <td>@t.Title</td>
-                <td>@(t.ProjectName ?? "-")</td>
-                <td>@t.Status</td>
-                <td>@t.Priority</td>
-                <td>@(t.Deadline?.ToString("yyyy-MM-dd HH:mm") ?? "-")</td>
-                <td>@(t.AssignedToName ?? "-")</td>
-                <td>@t.CreatedAt.ToString("yyyy-MM-dd HH:mm")</td>
+                <th>Task Id</th><th>Title</th><th>Project</th><th>Status</th><th>Priority</th>
+                <th>Deadline</th><th>Assigned To</th><th>Created At</th>
             </tr>
-        }
-        @if (!Model.RecentTasks.Any())
-        {
-            <tr><td colspan="8">No tasks yet.</td></tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach (var t in Model.RecentTasks)
+            {
+                <tr>
+                    <td>@t.TaskId</td>
+                    <td>@t.Title</td>
+                    <td>@(t.ProjectName ?? "-")</td>
+                    <td>@t.Status</td>
+                    <td>@t.Priority</td>
+                    <td>@(t.Deadline?.ToString("yyyy-MM-dd HH:mm") ?? "-")</td>
+                    <td>@(t.AssignedToName ?? "-")</td>
+                    <td>@t.CreatedAt.ToString("yyyy-MM-dd HH:mm")</td>
+                </tr>
+            }
+            @if (!Model.RecentTasks.Any())
+            {
+                <tr><td colspan="8">No tasks yet.</td></tr>
+            }
+        </tbody>
+    </table>
+</div>
 
-<h3>Recent Activity (Task History)</h3>
-<table border="1" cellpadding="4">
-    <thead>
-        <tr>
-            <th>History Id</th>
-            <th>Task</th>
-            <th>Action</th>
-            <th>Old Value</th>
-            <th>New Value</th>
-            <th>Changed By</th>
-            <th>Changed At</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var h in Model.RecentActivity)
-        {
+<!-- Recent Activity Table -->
+<div class="table-card">
+    <div class="card-header"><h3>Recent Activity (Task History)</h3></div>
+    <table border="1" cellpadding="4">
+        <thead>
             <tr>
-                <td>@h.HistoryId</td>
-                <td>#@h.TaskId - @h.TaskTitle</td>
-                <td>@h.Action</td>
-                <td>@(h.OldValue ?? "-")</td>
-                <td>@(h.NewValue ?? "-")</td>
-                <td>@(h.ChangedByName ?? "-")</td>
-                <td>@h.ChangedAt.ToString("yyyy-MM-dd HH:mm")</td>
+                <th>History Id</th><th>Task</th><th>Action</th><th>Old Value</th>
+                <th>New Value</th><th>Changed By</th><th>Changed At</th>
             </tr>
-        }
-        @if (!Model.RecentActivity.Any())
-        {
-            <tr><td colspan="7">No activity yet.</td></tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach (var h in Model.RecentActivity)
+            {
+                <tr>
+                    <td>@h.HistoryId</td>
+                    <td>#@h.TaskId - @h.TaskTitle</td>
+                    <td>@h.Action</td>
+                    <td>@(h.OldValue ?? "-")</td>
+                    <td>@(h.NewValue ?? "-")</td>
+                    <td>@(h.ChangedByName ?? "-")</td>
+                    <td>@h.ChangedAt.ToString("yyyy-MM-dd HH:mm")</td>
+                </tr>
+            }
+            @if (!Model.RecentActivity.Any())
+            {
+                <tr><td colspan="7">No activity yet.</td></tr>
+            }
+        </tbody>
+    </table>
+</div>
 
-<h3>Recent Completions</h3>
-<table border="1" cellpadding="4">
-    <thead>
-        <tr>
-            <th>Completion Id</th>
-            <th>Task</th>
-            <th>Completed By</th>
-            <th>Completed At</th>
-            <th>PDF</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var c in Model.RecentCompletions)
-        {
-            <tr>
-                <td>@c.CompletionId</td>
-                <td>#@c.TaskId - @c.TaskTitle</td>
-                <td>@(c.CompletedByName ?? "-")</td>
-                <td>@c.CompletedAt.ToString("yyyy-MM-dd HH:mm")</td>
-                <td>
-                    @if (!string.IsNullOrEmpty(c.PdfUrl))
-                    {
-                        <a href="@c.PdfUrl" target="_blank">View PDF</a>
-                    }
-                    else
-                    {
-                        <span>-</span>
-                    }
-                </td>
-            </tr>
-        }
-        @if (!Model.RecentCompletions.Any())
-        {
-            <tr><td colspan="5">No completions yet.</td></tr>
-        }
-    </tbody>
-</table>
+<!-- Recent Completions Table -->
+<div class="table-card">
+    <div class="card-header"><h3>Recent Completions</h3></div>
+    <table border="1" cellpadding="4">
+        <thead>
+            <tr><th>Completion Id</th><th>Task</th><th>Completed By</th><th>Completed At</th><th>PDF</th></tr>
+        </thead>
+        <tbody>
+            @foreach (var c in Model.RecentCompletions)
+            {
+                <tr>
+                    <td>@c.CompletionId</td>
+                    <td>#@c.TaskId - @c.TaskTitle</td>
+                    <td>@(c.CompletedByName ?? "-")</td>
+                    <td>@c.CompletedAt.ToString("yyyy-MM-dd HH:mm")</td>
+                    <td>
+                        @if (!string.IsNullOrEmpty(c.PdfUrl))
+                        {
+                            <a href="@c.PdfUrl" target="_blank"><i class="bi bi-file-earmark-pdf me-1"></i>View PDF</a>
+                        }
+                        else
+                        {
+                            <span>-</span>
+                        }
+                    </td>
+                </tr>
+            }
+            @if (!Model.RecentCompletions.Any())
+            {
+                <tr><td colspan="5">No completions yet.</td></tr>
+            }
+        </tbody>
+    </table>
+</div>

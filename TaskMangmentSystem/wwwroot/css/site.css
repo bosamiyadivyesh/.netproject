@@ -1,31 +1,177 @@
-html {
-  font-size: 14px;
-}
-
-@media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
-}
-
-.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
-}
-
-html {
-  position: relative;
-  min-height: 100%;
-}
-
+/* TaskManagement — Premium public theme (Bootstrap 5 based) */
 body {
-  margin-bottom: 60px;
+    font-family: 'Inter',system-ui,sans-serif;
+    background: #f6f7fb;
+    color: #0f172a
 }
 
-.form-floating > .form-control-plaintext::placeholder, .form-floating > .form-control::placeholder {
-  color: var(--bs-secondary-color);
-  text-align: end;
+/* Glassy dark navbar */
+.navbar-glass {
+    background: rgba(11,18,32,.92) !important;
+    backdrop-filter: blur(14px);
+    border-bottom: 1px solid rgba(255,255,255,.08);
+    box-shadow: 0 8px 30px rgba(2,6,23,.25)
 }
 
-.form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
-  text-align: start;
+    .navbar-glass .navbar-brand {
+        font-weight: 800;
+        letter-spacing: -.02em;
+        font-size: 1.15rem;
+        background: linear-gradient(135deg,#818cf8,#c084fc);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent
+    }
+
+    .navbar-glass .nav-link {
+        color: #cbd5e1 !important;
+        font-weight: 500;
+        font-size: .92rem;
+        margin: 0 4px;
+        border-radius: 8px;
+        transition: .18s
+    }
+
+        .navbar-glass .nav-link:hover {
+            color: #fff !important;
+            background: rgba(255,255,255,.07)
+        }
+
+    .navbar-glass .navbar-toggler {
+        border-color: rgba(255,255,255,.25)
+    }
+
+    .navbar-glass .navbar-toggler-icon {
+        filter: invert(1)
+    }
+
+/* Gradient primary buttons everywhere */
+.btn-primary {
+    --bs-btn-color: #fff;
+    background: linear-gradient(135deg,#6366f1,#8b5cf6);
+    border: 0;
+    font-weight: 600;
+    border-radius: 10px;
+    padding: .6rem 1.4rem;
+    box-shadow: 0 6px 16px rgba(99,102,241,.35);
+    transition: .18s
 }
+
+    .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 24px rgba(99,102,241,.45);
+        background: linear-gradient(135deg,#6366f1,#8b5cf6)
+    }
+
+.btn-danger {
+    border-radius: 10px;
+    font-weight: 600
+}
+
+/* Hero / headings */
+.display-4 {
+    font-weight: 800;
+    letter-spacing: -.03em;
+    background: linear-gradient(135deg,#0f172a,#4338ca);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent
+}
+
+.text-center .display-4 {
+    margin-top: 2rem
+}
+
+/* Cards */
+.card {
+    border: 1px solid #e9ecf5;
+    border-radius: 18px;
+    box-shadow: 0 14px 40px rgba(15,23,42,.09)
+}
+
+    .card.shadow {
+        box-shadow: 0 20px 50px rgba(15,23,42,.13) !important
+    }
+
+.form-control {
+    border-radius: 10px;
+    padding: .65rem .9rem;
+    border: 1.5px solid #e2e8f0
+}
+
+    .form-control:focus {
+        border-color: #6366f1;
+        box-shadow: 0 0 0 4px rgba(99,102,241,.13)
+    }
+
+.form-label {
+    font-weight: 600;
+    font-size: .85rem;
+    color: #475569
+}
+
+/* Tables (scaffolded TaskAssignments pages) */
+.table {
+    --bs-table-bg: transparent;
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(15,23,42,.07)
+}
+
+    .table thead th {
+        background: #f8fafc;
+        font-size: .75rem;
+        text-transform: uppercase;
+        letter-spacing: .06em;
+        color: #64748b;
+        border-bottom-width: 1px
+    }
+
+/* Footer */
+.footer {
+    background: #0b1220;
+    color: #94a3b8;
+    line-height: 60px;
+    font-size: .88rem
+}
+
+    .footer a {
+        color: #a5b4fc;
+        text-decoration: none;
+        font-weight: 600
+    }
+
+/* Auth card icon header */
+.auth-wrap {
+    min-height: calc(100vh - 140px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem 1rem
+}
+
+.auth-card {
+    width: 100%;
+    max-width: 440px;
+    border: 0;
+    border-radius: 22px;
+    overflow: hidden;
+    box-shadow: 0 30px 80px rgba(15,23,42,.18)
+}
+
+.auth-head {
+    background: linear-gradient(135deg,#6366f1,#8b5cf6);
+    padding: 2rem 2rem 1.4rem;
+    color: #fff;
+    text-align: center
+}
+
+    .auth-head .bi {
+        font-size: 2.4rem
+    }
+
+    .auth-head h3 {
+        font-weight: 800;
+        margin: .6rem 0 0;
+        letter-spacing: -.02em
+    }

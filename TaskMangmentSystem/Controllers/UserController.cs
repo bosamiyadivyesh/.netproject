@@ -50,7 +50,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
                 user.Password
             );
 
-            user.Role = "admin";
+            user.Role = "user";
             user.CreatedAt = DateTime.UtcNow;
 
             _context.Users.Add(user);
@@ -116,4 +116,19 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 
             return RedirectToAction("Index", "Home");
         }
+    // GET or POST: /User/Logout
+    [HttpGet]
+    [HttpPost]
+    public async Task<IActionResult> Logout()
+    {
+        await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+        return RedirectToAction("Login");
     }
+
+    // GET: /User/AccessDenied
+    [HttpGet]
+    public IActionResult AccessDenied()
+    {
+        return View();
+    }
+}

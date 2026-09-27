@@ -1,0 +1,69 @@
+@model List<TaskManagement.Models.UserTaskListRow>
+
+@{
+    ViewData["Title"] = "My Tasks";
+    Layout = "_UserLayout";
+}
+
+<h1>My Tasks</h1>
+<p>Tasks assigned to you, across every project.</p>
+
+@if (TempData["Success"] != null)
+{
+    <p style="color:green">@TempData["Success"]</p>
+}
+
+<form method="get" asp-controller="UserTasks" asp-action="Index">
+    <input type="text" name="search" value="@ViewBag.Search" placeholder="Search title" />
+
+    <select name="status">
+        <option value="">All Status</option>
+        <option value="pending" selected="@(ViewBag.Status == "pending")">Pending</option>
+        <option value="in_progress" selected="@(ViewBag.Status == "in_progress")">In Progress</option>
+        <option value="completed" selected="@(ViewBag.Status == "completed")">Completed</option>
+        <option value="cancelled" selected="@(ViewBag.Status == "cancelled")">Cancelled</option>
+    </select>
+
+    <select name="priority">
+        <option value="">All Priority</option>
+        <option value="low" selected="@(ViewBag.Priority == "low")">Low</option>
+        <option value="medium" selected="@(ViewBag.Priority == "medium")">Medium</option>
+        <option value="high" selected="@(ViewBag.Priority == "high")">High</option>
+        <option value="urgent" selected="@(ViewBag.Priority == "urgent")">Urgent</option>
+    </select>
+
+    <button type="submit"><i class="bi bi-funnel"></i> Filter</button>
+    <a asp-controller="UserTasks" asp-action="Index">Reset</a>
+</form>
+
+<table border="1" cellpadding="4">
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>Project</th>
+            <th>Status</th>
+            <th>Priority</th>
+            <th>Deadline</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var t in Model)
+        {
+            <tr style="@(t.IsOverdue ? "background-color:#ffe5e5" : "")">
+                <td>@t.Title</td>
+                <td>@(t.ProjectName ?? "-")</td>
+                <td>@t.Status @(t.IsOverdue ? "(Overdue)" : "")</td>
+                <td>@t.Priority</td>
+                <td>@(t.Deadline?.ToString("yyyy-MM-dd HH:mm") ?? "-")</td>
+                <td>
+                    <a asp-controller="UserTasks" asp-action="Details" asp-route-id="@t.TaskId">View</a>
+                </td>
+            </tr>
+        }
+        @if (!Model.Any())
+        {
+            <tr><td colspan="6">No tasks assigned to you yet.</td></tr>
+        }
+    </tbody>
+</table>
