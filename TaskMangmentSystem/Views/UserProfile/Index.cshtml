@@ -11,7 +11,9 @@
 @if (TempData["Success"] != null)
 {
     <p style="color:green">@TempData["Success"]</p>
+
 }
+
 
 <form asp-controller="UserProfile" asp-action="Index" method="post">
     <div asp-validation-summary="All"></div>
@@ -30,14 +32,14 @@
 
     <div>
         <label asp-for="NewPassword">New Password</label>
-        <input asp-for="NewPassword" type="password" />
+        <input asp-for="NewPassword" type="password" id="NewPassword"/>
         <small>Leave blank to keep your current password.</small>
         <span asp-validation-for="NewPassword"></span>
     </div>
 
     <div>
         <label asp-for="ConfirmPassword">Confirm New Password</label>
-        <input asp-for="ConfirmPassword" type="password" />
+        <input asp-for="ConfirmPassword" type="password" id="ConfirmPassword" disabled/>
         <span asp-validation-for="ConfirmPassword"></span>
     </div>
 
@@ -47,4 +49,19 @@
     </ul>
 
     <button type="submit"><i class="bi bi-check2"></i> Save Changes</button>
+    <script>
+            const newpassword = document.getElementById('NewPassword');
+            const confirmpassword = document.getElementById('ConfirmPassword');
+            
+            newpassword.addEventListener('input', function() {
+
+            if (newpassword.value.length > 0) {
+                confirmpassword.disabled = false;
+            }
+            else {
+                confirmpassword.disabled = true;
+            }
+            });
+
+    </script>
 </form>

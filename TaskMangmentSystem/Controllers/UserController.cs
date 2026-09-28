@@ -91,6 +91,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
             }
 
             // Create claims
+
             var claims = new List<Claim>
     {
         new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
@@ -114,7 +115,11 @@ using Microsoft.AspNetCore.Authentication.Cookies;
                 principal
             );
 
-            return RedirectToAction("Index", "Home");
+            if(user.Role == "admin")
+        {
+            return RedirectToAction("Index", "AdminDashboard");
+        }
+        return RedirectToAction("Index", "UserDashboard");
         }
     // GET or POST: /User/Logout
     [HttpGet]
